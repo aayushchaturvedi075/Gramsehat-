@@ -1,0 +1,913 @@
+# ==============================================================================
+# GramSehat Layer 5 (Safety Rule Engine) - Symptom Keyword Lexicon
+# Multi-lingual mapping of clinical symptom tags to English, Hindi (Devanagari),
+# and Hinglish (Latinized Hindi) colloquial expressions.
+# ==============================================================================
+
+version: "1.0"
+
+keywords:
+  # ----------------------------------------------------------------------------
+  # Cardiovascular & Chest Symptoms
+  # ----------------------------------------------------------------------------
+  chest_pain:
+    english:
+      - "chest pain"
+      - "chest ache"
+      - "pain in chest"
+      - "chest discomfort"
+      - "chest pressure"
+      - "heaviness in chest"
+      - "tightness in chest"
+      - "angina"
+      - "crushing chest pain"
+      - "burning in chest"
+    hindi:
+      - "सीने में दर्द"
+      - "सीने में बहुत तेज दर्द"
+      - "सीने में तेज दर्द"
+      - "छाती में दर्द"
+      - "छाती में तेज दर्द"
+      - "सीने में भारीपन"
+      - "छाती में भारीपन"
+      - "सीने में जलन"
+      - "सीने में जकड़न"
+      - "सीने में दबाव"
+      - "छाती में दबाव"
+    hinglish:
+      - "seene mein dard"
+      - "seene me dard"
+      - "seene me bohot dard"
+      - "seene me bahut dard"
+      - "seene mein tez dard"
+      - "seene me tez dard"
+      - "sine me dard"
+      - "sine mein dard"
+      - "chhati mein dard"
+      - "chhati me dard"
+      - "chest me dard"
+      - "chest mein dard"
+      - "chest pain"
+      - "seene me jalan"
+      - "seene me bhareepan"
+      - "seene me jakdan"
+      - "chhati me bhari lag raha hai"
+
+  breathlessness:
+    english:
+      - "breathlessness"
+      - "shortness of breath"
+      - "difficulty breathing"
+      - "trouble breathing"
+      - "hard to breathe"
+      - "gasping for breath"
+      - "cannot breathe"
+      - "can't breathe"
+      - "dyspnea"
+      - "panting"
+    hindi:
+      - "सांस फूलना"
+      - "सांस फूल रही है"
+      - "सांस लेने में दिक्कत"
+      - "सांस लेने में भारी दिक्कत"
+      - "सांस लेने में तकलीफ"
+      - "सांस अटक रही है"
+      - "दम घुट रहा है"
+      - "सांस नहीं आ रही"
+      - "सांस खींचने में तकलीफ"
+    hinglish:
+      - "saans phoolna"
+      - "saas phulna"
+      - "saans phool rahi hai"
+      - "saans lene mein dikkat"
+      - "saans lene me dikkat"
+      - "saans lene me bhari dikkat"
+      - "saans lene mein takleef"
+      - "saans lene me takleef"
+      - "saans lene me pareshani"
+      - "saans nahi aa rahi"
+      - "saans atak rahi hai"
+      - "dum ghut raha hai"
+      - "breathless lag raha hai"
+      - "breathing problem"
+
+  sweating:
+    english:
+      - "sweating"
+      - "cold sweat"
+      - "profuse sweating"
+      - "excessive sweating"
+      - "perspiration"
+      - "sweats"
+      - "diaphoresis"
+    hindi:
+      - "पसीना आना"
+      - "पसीना आ रहा है"
+      - "ठंडा पसीना"
+      - "बहुत ज्यादा पसीना"
+      - "पसीने से लथपथ"
+      - "अत्यधिक पसीना"
+    hinglish:
+      - "paseena aana"
+      - "pasina aana"
+      - "paseena aa raha hai"
+      - "pasina aa raha hai"
+      - "thanda pasina"
+      - "thanda paseena"
+      - "bahut pasina"
+      - "bohot pasina"
+      - "zyada pasina"
+      - "pasine se bheeg gaya"
+
+  left_arm_pain:
+    english:
+      - "left arm pain"
+      - "pain in left arm"
+      - "left shoulder pain"
+      - "pain radiating to left arm"
+      - "pain down left arm"
+      - "left arm ache"
+    hindi:
+      - "बाएं हाथ में दर्द"
+      - "उल्टे हाथ में दर्द"
+      - "बाएं कंधे में दर्द"
+      - "बाएं बाजू में दर्द"
+      - "हाथ में उठता दर्द"
+    hinglish:
+      - "baayein haath mein dard"
+      - "baaye hath me dard"
+      - "baye hath me dard"
+      - "ulta hath me dard"
+      - "ulte hath me dard"
+      - "left arm me dard"
+      - "left arm pain"
+      - "left haath me dard"
+      - "baye kandhe me dard"
+
+  # ----------------------------------------------------------------------------
+  # Ophthalmic (Eye) Symptoms
+  # ----------------------------------------------------------------------------
+  eye_redness:
+    english:
+      - "eye redness"
+      - "red eye"
+      - "red eyes"
+      - "bloodshot eye"
+      - "bloodshot eyes"
+      - "eye inflamed"
+      - "pink eye"
+      - "eye_redness_flag"
+    hindi:
+      - "आंख लाल"
+      - "आंखें लाल"
+      - "आंख में लाली"
+      - "आंख लाल हो गई है"
+      - "आंखों में लालिमा"
+    hinglish:
+      - "aankh laal"
+      - "aankh lal"
+      - "aankhen laal"
+      - "aankh me lali"
+      - "aankh lal ho gayi hai"
+      - "eye red ho gayi"
+      - "red eye"
+      - "eye redness flag"
+
+  severe_eye_pain:
+    english:
+      - "severe eye pain"
+      - "intense eye pain"
+      - "severe pain in eye"
+      - "sharp eye pain"
+      - "excruciating eye pain"
+      - "unbearable eye pain"
+    hindi:
+      - "आंख में तेज दर्द"
+      - "आंख में बहुत तेज दर्द"
+      - "आंख में गंभीर दर्द"
+      - "आंख का असहनीय दर्द"
+      - "आंख दुख रही है बहुत"
+    hinglish:
+      - "aankh mein tez dard"
+      - "aankh me tez dard"
+      - "aankh me bahut tez dard"
+      - "aankh me severe dard"
+      - "severe eye pain"
+      - "aankh me bohot dard"
+
+  reduced_vision:
+    english:
+      - "reduced vision"
+      - "loss of vision"
+      - "vision loss"
+      - "blurred vision"
+      - "cannot see clearly"
+      - "diminished vision"
+      - "diminished sight"
+      - "blind spot"
+      - "sudden blindness"
+      - "foggy vision"
+    hindi:
+      - "कम दिखाई देना"
+      - "कम दिखना"
+      - "धुंधला दिखना"
+      - "धुंधला दिखाई दे रहा है"
+      - "दिखाई नहीं दे रहा"
+      - "नजर कमजोर होना"
+      - "आंखों की रोशनी कम"
+    hinglish:
+      - "kam dikhayi dena"
+      - "kam dikhna"
+      - "kam dikh raha hai"
+      - "dhundhla dikhna"
+      - "dhundhla dikhai de raha hai"
+      - "dikhayi nahi de raha"
+      - "nazar kamzor ho gayi"
+      - "vision loss"
+      - "reduced vision"
+      - "dhundhla nazar"
+
+  light_sensitivity:
+    english:
+      - "light sensitivity"
+      - "sensitivity to light"
+      - "photophobia"
+      - "eye hurts in light"
+      - "glare hurts eyes"
+    hindi:
+      - "रोशनी से तकलीफ"
+      - "रोशनी बर्दाश्त न होना"
+      - "धूप से आंख में दर्द"
+      - "रोशनी में आंख नहीं खुल रही"
+    hinglish:
+      - "roshni se dikkat"
+      - "roshni se takleef"
+      - "light se dard"
+      - "light sensitivity"
+      - "dhoop me aankh khul nahi rahi"
+      - "bulb ki light chubhti hai"
+
+  sudden_onset:
+    english:
+      - "sudden onset"
+      - "suddenly started"
+      - "started suddenly"
+      - "happened suddenly"
+      - "abrupt onset"
+      - "acute onset"
+    hindi:
+      - "अचानक शुरू हुआ"
+      - "अचानक से दर्द"
+      - "एकाएक शुरू हुआ"
+      - "तुरंत अचानक हुआ"
+    hinglish:
+      - "achanak shuru hua"
+      - "achanak se shuru hua"
+      - "achanak dard hua"
+      - "ekdum achanak"
+      - "sudden onset"
+      - "suddenly hua"
+
+  mild_eye_redness_watering:
+    english:
+      - "mild eye redness"
+      - "eye watering"
+      - "watery eyes"
+      - "tearing in eyes"
+      - "mild pink eye"
+      - "itching in eye"
+    hindi:
+      - "आंख से पानी आना"
+      - "आंख से पानी गिर रहा है"
+      - "आंख में हल्की लाली"
+      - "आंख में हल्की खुजली"
+    hinglish:
+      - "aankh se pani aana"
+      - "aankh se paani nikal raha hai"
+      - "halki lal aankh"
+      - "mild red eye"
+      - "aankh me itching"
+      - "eye watering"
+
+  # ----------------------------------------------------------------------------
+  # Pregnancy & Obstetric Danger Signs
+  # ----------------------------------------------------------------------------
+  pregnancy:
+    english:
+      - "pregnant"
+      - "pregnancy"
+      - "expecting"
+      - "gestation"
+      - "gravida"
+    hindi:
+      - "गर्भवती"
+      - "गर्भावस्था"
+      - "पेट से है"
+      - "उम्मीद से है"
+      - "गर्भ में बच्चा है"
+    hinglish:
+      - "pregnant hai"
+      - "pregnancy"
+      - "garbhavati"
+      - "pet se hai"
+      - "pet me bachha hai"
+      - "ummeed se hai"
+      - "pregnant aurat"
+
+  severe_headache:
+    english:
+      - "severe headache"
+      - "worst headache"
+      - "splitting headache"
+      - "extreme head pain"
+      - "intense headache"
+      - "throbbing severe headache"
+    hindi:
+      - "सिर में बहुत तेज दर्द"
+      - "सिर में तेज दर्द"
+      - "गंभीर सिरदर्द"
+      - "सिर फटा जा रहा है"
+      - "असहनीय सिरदर्द"
+    hinglish:
+      - "sir mein tez dard"
+      - "sir me tez dard"
+      - "sar me bohot tez dard"
+      - "sar me bohot dard"
+      - "sar dard bohot tez"
+      - "severe headache"
+      - "sar fata ja raha hai"
+      - "sir dukh raha hai bohot"
+
+  blurred_vision:
+    english:
+      - "blurred vision"
+      - "blurry vision"
+      - "cloudy vision"
+      - "flashes of light"
+      - "spots in vision"
+    hindi:
+      - "धुंधला दिखाई देना"
+      - "आंखों के आगे अंधेरा"
+      - "आंखों के आगे तारे चमकना"
+    hinglish:
+      - "dhundhla dikhna"
+      - "aankhon ke aage andhera"
+      - "blurry vision"
+      - "aankh ke aage kaala chha gaya"
+
+  swelling:
+    english:
+      - "swelling"
+      - "edema"
+      - "swollen feet"
+      - "swollen hands"
+      - "swollen face"
+      - "puffy face"
+      - "general swelling"
+    hindi:
+      - "सूजन"
+      - "हाथ पैरों में सूजन"
+      - "चेहरे पर सूजन"
+      - "पैरों में बहुत सूजन"
+      - "शरीर में सूजन"
+    hinglish:
+      - "sujan"
+      - "soojan"
+      - "haath pair me sujan"
+      - "chehre par sujan"
+      - "swelling"
+      - "pair sooj gaye hain"
+      - "face par swelling"
+
+  reduced_fetal_movement:
+    english:
+      - "reduced fetal movement"
+      - "baby not moving"
+      - "no fetal kicks"
+      - "baby stopped moving"
+      - "decreased fetal movement"
+      - "baby kicks reduced"
+    hindi:
+      - "बच्चे की हलचल कम"
+      - "पेट में बच्चा नहीं हिल रहा"
+      - "बच्चे का चलना बंद"
+      - "बच्चे की लात नहीं महसूस हो रही"
+      - "गर्भ में हलचल नहीं"
+    hinglish:
+      - "bachhe ki halchal kam"
+      - "pet me bachha hil nahi raha"
+      - "pet me bachha hil dul nahi raha"
+      - "baby movement kam ho gaya"
+      - "baby kick nahi kar raha"
+      - "baby hil nahi raha"
+
+  heavy_bleeding:
+    english:
+      - "heavy bleeding"
+      - "vaginal bleeding"
+      - "severe bleeding"
+      - "hemorrhage"
+      - "profuse bleeding"
+      - "blood soaking through pads"
+    hindi:
+      - "भारी रक्तस्राव"
+      - "बहुत ज्यादा खून बहना"
+      - "खून का बहाव रुक नहीं रहा"
+      - "योनि से भारी खून"
+      - "अत्यधिक ब्लीडिंग"
+    hinglish:
+      - "bhaari bleeding"
+      - "bahut zyada khoon behna"
+      - "bohot khoon nikal raha hai"
+      - "khoon ruk nahi raha"
+      - "heavy bleeding"
+      - "jyada bleeding"
+      - "bleeding ho rahi hai bohot"
+
+  # ----------------------------------------------------------------------------
+  # Acute Respiratory & Hypoxic Signs
+  # ----------------------------------------------------------------------------
+  difficulty_breathing:
+    english:
+      - "difficulty breathing"
+      - "cannot breathe"
+      - "hard to breathe"
+      - "severe respiratory distress"
+      - "stridor"
+      - "wheezing severely"
+      - "gasping"
+    hindi:
+      - "सांस नहीं आ रही"
+      - "सांस लेने में भारी तकलीफ"
+      - "सांस घुट रही है"
+      - "दम फूलना"
+      - "सांस खिंच नहीं पा रही"
+    hinglish:
+      - "saans nahi aa rahi"
+      - "saans lene me bhaari takleef"
+      - "saans lene me bahut pareshani"
+      - "dum ghut raha hai"
+      - "breathing problem severe"
+      - "cant breathe"
+
+  blue_lips:
+    english:
+      - "blue lips"
+      - "cyanosis"
+      - "bluish lips"
+      - "lips turning blue"
+      - "blue fingernails"
+      - "bluish face"
+    hindi:
+      - "होंठ नीले पड़ना"
+      - "नीले होंठ"
+      - "होंठ नीले हो गए"
+      - "चेहरा नीला पड़ गया"
+      - "नाखून नीले पड़ना"
+    hinglish:
+      - "hont neele padna"
+      - "honth neele"
+      - "hont neele ho gaye"
+      - "lips blue ho rahe"
+      - "blue lips"
+      - "neele hont"
+
+  # ----------------------------------------------------------------------------
+  # Neurological Emergencies (Stroke, Seizure, Coma)
+  # ----------------------------------------------------------------------------
+  seizure:
+    english:
+      - "seizure"
+      - "seizures"
+      - "convulsion"
+      - "convulsions"
+      - "fits"
+      - "epileptic attack"
+      - "jerking movements"
+    hindi:
+      - "दौरा पड़ना"
+      - "मिर्गी का दौरा"
+      - "झटके आना"
+      - "हाथ पैर में ऐंठन"
+      - "कंपकंपी और झटके"
+    hinglish:
+      - "daura padna"
+      - "daura pada"
+      - "mirgi ka daura"
+      - "jhatke aana"
+      - "jhatke aa rahe hain"
+      - "fits aana"
+      - "fits aa gaye"
+      - "seizure"
+
+  unconsciousness:
+    english:
+      - "unconscious"
+      - "unconsciousness"
+      - "passed out"
+      - "fainted"
+      - "loss of consciousness"
+      - "unresponsive"
+      - "blackout"
+      - "coma"
+    hindi:
+      - "बेहोश"
+      - "बेहोशी"
+      - "होश नहीं है"
+      - "अचेत"
+      - "जगाने पर नहीं जाग रहा"
+      - "सुधबुध खो दी"
+    hinglish:
+      - "behosh"
+      - "behoshi"
+      - "behosh ho gaye the"
+      - "behosh ho gaya"
+      - "hosh nahi hai"
+      - "passed out"
+      - "unconscious ho gaya"
+      - "faint ho gaya"
+
+  sudden_weakness_one_side:
+    english:
+      - "sudden weakness on one side"
+      - "weakness on one side"
+      - "one side paralyzed"
+      - "hemiparesis"
+      - "one side numb"
+      - "face drooping on one side"
+      - "arm falling limp"
+    hindi:
+      - "एक तरफ कमजोरी"
+      - "एक तरफ लकवा"
+      - "आधा शरीर सुन्न"
+      - "एक हाथ पैर काम नहीं कर रहा"
+      - "चेहरा एक तरफ टेढ़ा"
+    hinglish:
+      - "ek taraf kamzori"
+      - "ek taraf lakwa"
+      - "ek taraf lakwa mar gaya"
+      - "aadha shareer sunn"
+      - "ek hath pair kaam nahi kar raha"
+      - "ek side paralysis"
+      - "one side weakness"
+      - "face tedha ho gaya"
+
+  slurred_speech:
+    english:
+      - "slurred speech"
+      - "difficulty speaking"
+      - "unable to speak clearly"
+      - "speech slurred"
+      - "tongue heavy"
+      - "words not coming out clear"
+      - "aphasia"
+    hindi:
+      - "बोली लड़खड़ाना"
+      - "बोलने में दिक्कत"
+      - "जुबान लड़खड़ाना"
+      - "आवाज साफ नहीं निकल रही"
+      - "बोला नहीं जा रहा"
+    hinglish:
+      - "boli ladkhadana"
+      - "boli ladkhada rahi hai"
+      - "zuban ladkhadana"
+      - "zubaan fisal rahi hai"
+      - "bol nahi pa rahe"
+      - "awaz saaf nahi nikal rahi"
+      - "slurred speech"
+
+  # ----------------------------------------------------------------------------
+  # Trauma & Hemorrhage
+  # ----------------------------------------------------------------------------
+  severe_injury:
+    english:
+      - "severe injury"
+      - "major trauma"
+      - "deep wound"
+      - "compound fracture"
+      - "head injury"
+      - "road traffic accident"
+      - "major accident"
+    hindi:
+      - "गंभीर चोट"
+      - "बड़ा हादसा"
+      - "गहरा घाव"
+      - "सिर पर गहरी चोट"
+      - "हड्डी टूटना"
+      - "बड़ा एक्सीडेंट"
+    hinglish:
+      - "gambhir chot"
+      - "badi chot"
+      - "gehra ghaav"
+      - "severe injury"
+      - "major accident"
+      - "bada accident ho gaya"
+      - "sar me chot lag gayi"
+
+  # ----------------------------------------------------------------------------
+  # Pediatric IMCI Specific Danger Signs
+  # ----------------------------------------------------------------------------
+  high_fever:
+    english:
+      - "high fever"
+      - "very high fever"
+      - "burning with fever"
+      - "temperature 103"
+      - "temperature 104"
+      - "high grade fever"
+    hindi:
+      - "तेज बुखार"
+      - "बहुत तेज बुखार"
+      - "शरीर तपना"
+      - "बुखार से तप रहा है"
+    hinglish:
+      - "tez bukhar"
+      - "bohot tez bukhar"
+      - "high fever"
+      - "shareer tap raha hai"
+      - "bahut tez bukhar"
+
+  stiff_neck:
+    english:
+      - "stiff neck"
+      - "neck stiffness"
+      - "cannot bend neck"
+      - "rigid neck"
+      - "nuchal rigidity"
+      - "neck pain and stiffness"
+    hindi:
+      - "गर्दन में अकड़न"
+      - "गर्दन अकड़ना"
+      - "गर्दन नहीं मुड़ रही"
+      - "गर्दन में जकड़न"
+    hinglish:
+      - "gardan me akadn"
+      - "gardan me akdan"
+      - "gardan akdna"
+      - "neck stiffness"
+      - "gardan nahi mud rahi"
+      - "gardan jhuk nahi rahi"
+
+  unable_to_drink:
+    english:
+      - "unable to drink"
+      - "cannot drink"
+      - "cannot breastfeed"
+      - "unable to breastfeed"
+      - "refusing all feeds"
+      - "vomiting everything"
+      - "cannot swallow liquids"
+    hindi:
+      - "दूध नहीं पी पा रहा"
+      - "पानी नहीं पी पा रहा"
+      - "कुछ भी नहीं पी पा रहा"
+      - "स्तनपान नहीं कर पा रहा"
+      - "कुछ भी गले से नीचे नहीं उतर रहा"
+    hinglish:
+      - "doodh nahi pee raha"
+      - "doodh nahi pee pa raha"
+      - "paani nahi pee pa raha"
+      - "kuch pee nahi pa raha"
+      - "unable to drink"
+      - "kuch digest nahi ho raha"
+
+  lethargy:
+    english:
+      - "lethargy"
+      - "lethargic"
+      - "unusually sleepy"
+      - "hard to wake"
+      - "floppy child"
+      - "drowsy and unresponsive"
+    hindi:
+      - "सुस्त"
+      - "अत्यधिक सुस्ती"
+      - "उठ नहीं पा रहा"
+      - "बेसुध पड़ा है"
+      - "आंख नहीं खोल रहा"
+    hinglish:
+      - "sust hai"
+      - "bohot susti"
+      - "lethargic"
+      - "uth nahi pa raha"
+      - "aankh nahi khol raha"
+      - "drowsy lag raha hai"
+
+  # ----------------------------------------------------------------------------
+  # Yellow Alert Symptoms (Prolonged or Dehydration Risk)
+  # ----------------------------------------------------------------------------
+  fever_over_3_days:
+    english:
+      - "fever for 3 days"
+      - "fever more than 3 days"
+      - "fever lasting 4 days"
+      - "fever since 4 days"
+      - "fever for 5 days"
+      - "fever since 5 days"
+      - "fever for a week"
+      - "fever since a week"
+      - "prolonged fever"
+    hindi:
+      - "3 दिन से ज्यादा बुखार"
+      - "चार दिन से बुखार"
+      - "पांच दिन से बुखार"
+      - "एक हफ्ते से बुखार"
+      - "कई दिनों से बुखार"
+      - "लगातार बुखार तीन दिन से"
+    hinglish:
+      - "3 din se bukhar"
+      - "char din se bukhar"
+      - "paanch din se bukhar"
+      - "ek hafte se bukhar"
+      - "fever more than 3 days"
+      - "fever since 4 days"
+      - "fever 4 days"
+      - "3 din se jyada bukhar"
+      - "teen din se bukhar chal raha hai"
+
+  persistent_vomiting:
+    english:
+      - "persistent vomiting"
+      - "continuous vomiting"
+      - "vomiting repeatedly"
+      - "frequent vomiting"
+      - "cannot keep fluids down"
+      - "recurrent vomiting"
+    hindi:
+      - "लगातार उल्टी"
+      - "बार-बार उल्टी होना"
+      - "उल्टी रुक नहीं रही"
+      - "उल्टी हो रही है बार बार"
+    hinglish:
+      - "lagatar ulti"
+      - "baar baar ulti"
+      - "ulti ruk nahi rahi"
+      - "continuous vomiting"
+      - "persistent vomiting"
+      - "ulti ho rahi hai bar bar"
+
+  diarrhoea_over_2_days:
+    english:
+      - "diarrhoea more than 2 days"
+      - "diarrhea for 2 days"
+      - "diarrhea for 3 days"
+      - "diarrhea since 3 days"
+      - "loose motions for 3 days"
+      - "loose motions since 3 days"
+      - "frequent watery stools"
+      - "persistent loose motions"
+    hindi:
+      - "दो दिन से ज्यादा दस्त"
+      - "तीन दिन से दस्त"
+      - "लगातार पतले दस्त"
+      - "दस्त रुक नहीं रहे"
+      - "तीन दिन से पेट खराब"
+    hinglish:
+      - "do din se dast"
+      - "teen din se dast"
+      - "loose motion 3 din se"
+      - "loose motions 3 days"
+      - "diarrhea 3 days"
+      - "patle dast lagatar"
+      - "dast ruk nahi rahe"
+
+  pallor_screening_flag:
+    english:
+      - "pallor screening flag"
+      - "pallor"
+      - "pale skin"
+      - "pale conjunctiva"
+      - "pale eyes"
+      - "possible pallor"
+      - "anemia screening flag"
+    hindi:
+      - "पीलापन"
+      - "आंखों में पीलापन"
+      - "त्वचा में पीलापन"
+      - "चेहरा पीला पड़ना"
+    hinglish:
+      - "peelapan"
+      - "pallor screening flag"
+      - "aankh me peelapan"
+      - "chehra peela pad gaya"
+      - "pale eyes"
+      - "pallor"
+
+  extreme_fatigue:
+    english:
+      - "extreme fatigue"
+      - "severe weakness"
+      - "extreme exhaustion"
+      - "severe tiredness"
+      - "cannot stand up from weakness"
+      - "severe debility"
+    hindi:
+      - "बहुत ज्यादा कमजोरी"
+      - "अत्यधिक थकान"
+      - "अत्यधिक कमजोरी"
+      - "शरीर में बिल्कुल जान नहीं"
+    hinglish:
+      - "bohot zyada kamzori"
+      - "bahut zyada kamzori"
+      - "extreme weakness"
+      - "extreme fatigue"
+      - "bahut thakan"
+      - "khade hone ki taqat nahi hai"
+
+  spreading_skin_rash:
+    english:
+      - "skin rash"
+      - "spreading rash"
+      - "rash spreading"
+      - "rash present several days"
+      - "spreading skin spots"
+      - "expanding red rash"
+    hindi:
+      - "त्वचा पर दाने"
+      - "फैलते हुए चकत्ते"
+      - "शरीर पर लाल चकत्ते"
+      - "दाने फैल रहे हैं"
+      - "खुजली वाले चकत्ते फैलना"
+    hinglish:
+      - "skin rash"
+      - "daane phail rahe hain"
+      - "chakatte phail rahe hain"
+      - "rash phail raha hai"
+      - "khujli wale dane"
+      - "shareer par lal daane"
+
+  # ----------------------------------------------------------------------------
+  # Mild / Supportive Symptoms (Qualify for GREEN when no danger signs exist)
+  # ----------------------------------------------------------------------------
+  mild_cough:
+    english:
+      - "mild cough"
+      - "slight cough"
+      - "dry cough"
+      - "coughing a little"
+    hindi:
+      - "हल्की खांसी"
+      - "थोड़ी खांसी"
+      - "सूखी खांसी"
+    hinglish:
+      - "halki khansi"
+      - "thodi khansi"
+      - "mild cough"
+      - "khansi thodi si"
+
+  mild_cold:
+    english:
+      - "mild cold"
+      - "runny nose"
+      - "sneezing"
+      - "stuffy nose"
+    hindi:
+      - "हल्का जुकाम"
+      - "बहती नाक"
+      - "छींक आना"
+      - "नाक बंद"
+    hinglish:
+      - "halka jukam"
+      - "halka zukam"
+      - "runny nose"
+      - "cheenk aana"
+      - "mild cold"
+
+  mild_headache:
+    english:
+      - "mild headache"
+      - "slight head ache"
+      - "mild head pain"
+    hindi:
+      - "हल्का सिरदर्द"
+      - "सिर में हल्का दर्द"
+    hinglish:
+      - "halka sar dard"
+      - "halka sir dard"
+      - "mild headache"
+
+  mild_body_ache:
+    english:
+      - "mild body ache"
+      - "slight body pain"
+      - "mild tiredness"
+    hindi:
+      - "हल्का बदन दर्द"
+      - "थोड़ा शरीर दर्द"
+    hinglish:
+      - "halka badan dard"
+      - "thoda shareer dard"
+      - "mild body ache"
+
+  sore_throat:
+    english:
+      - "sore throat"
+      - "throat irritation"
+      - "scratchy throat"
+    hindi:
+      - "गले में खराश"
+      - "गले में हल्का दर्द"
+    hinglish:
+      - "gale me kharash"
+      - "gale mein kharash"
+      - "sore throat"

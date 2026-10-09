@@ -1,0 +1,198 @@
+# ==============================================================================
+# GramSehat Layer 5 (Safety Rule Engine) - Clinical Urgency Rules
+# Deterministic, config-driven danger sign evaluation rules (WHO / IMCI aligned).
+# ==============================================================================
+
+version: "1.0"
+
+rules:
+  # ----------------------------------------------------------------------------
+  # RED RULES (High-Urgency Clinical Emergencies)
+  # ----------------------------------------------------------------------------
+
+  # Rule 1: Cardiac Emergency
+  - id: "RED_CHEST_CARDIAC"
+    level: "red"
+    all_of:
+      - "chest_pain"
+    any_of:
+      - "breathlessness"
+      - "sweating"
+      - "left_arm_pain"
+    specialty: "Cardiology"
+    action: "Immediate emergency transfer to nearest hospital with cardiology and ICU facility. Keep patient at rest and do not permit physical exertion."
+    reason: "Chest pain combined with breathlessness, sweating, or pain radiating to the left arm indicates a high likelihood of acute myocardial infarction (heart attack)."
+
+  # Rule 2: Acute Ocular Emergency
+  - id: "RED_OCULAR_EMERGENCY"
+    level: "red"
+    all_of:
+      - "eye_redness"
+      - "severe_eye_pain"
+      - "reduced_vision"
+    any_of:
+      - "light_sensitivity"
+      - "sudden_onset"
+    specialty: "Ophthalmology"
+    action: "Immediate emergency ophthalmology evaluation within hours to prevent irreversible vision loss. Avoid applying pressure or unprescribed eye drops."
+    reason: "Acute eye redness with severe ocular pain and diminished vision suggests acute angle-closure glaucoma or severe corneal condition requiring urgent specialist care."
+
+  # Rule 3: Obstetric / Pregnancy Danger Signs
+  - id: "RED_PREGNANCY_DANGER"
+    level: "red"
+    all_of:
+      - "pregnancy"
+    any_of:
+      - "severe_headache"
+      - "blurred_vision"
+      - "swelling"
+      - "reduced_fetal_movement"
+      - "heavy_bleeding"
+    specialty: "Obstetrics"
+    action: "Immediate emergency obstetric transport to a Comprehensive Emergency Obstetric and Newborn Care (CEmONC) referral hospital."
+    reason: "Pregnancy accompanied by danger signs (severe headache, blurred vision, edema, reduced fetal movements, or heavy bleeding) is a critical indicator of pre-eclampsia, eclampsia, hemorrhage, or fetal distress."
+
+  # Rule 4: Respiratory Compromise / Hypoxia
+  - id: "RED_RESPIRATORY_CRITICAL"
+    level: "red"
+    all_of: []
+    any_of:
+      - "difficulty_breathing"
+      - "blue_lips"
+    specialty: "Emergency/General"
+    action: "Immediate emergency transport with oxygen support to the nearest trauma or district hospital. Keep airway clear."
+    reason: "Severe breathing difficulty or cyanosis (blue lips) indicates critical respiratory failure or severe hypoxia requiring urgent airway stabilization."
+
+  # Rule 5: Acute Neurological Emergency (Stroke / Seizure / Coma)
+  - id: "RED_NEURO_CRITICAL"
+    level: "red"
+    all_of: []
+    any_of:
+      - "seizure"
+      - "unconsciousness"
+      - "sudden_weakness_one_side"
+      - "slurred_speech"
+    specialty: "Emergency/Neurology"
+    action: "Place in recovery position if unconscious, keep airway open, and transfer immediately to a hospital equipped for acute stroke or neurological intensive care."
+    reason: "Seizures, loss of consciousness, sudden unilateral paralysis, or slurred speech are acute neurovascular danger signs indicating stroke, status epilepticus, or intracranial pathology."
+
+  # Rule 6: Major Trauma & Severe Hemorrhage
+  - id: "RED_TRAUMA_HEMORRHAGE"
+    level: "red"
+    all_of: []
+    any_of:
+      - "heavy_bleeding"
+      - "severe_injury"
+    specialty: "Emergency/Surgery"
+    action: "Apply continuous direct pressure to wound using clean dressing, keep patient warm, and dispatch 108 ambulance for immediate surgical resuscitation."
+    reason: "Active heavy hemorrhage or major traumatic injury risks hypovolemic shock and requires emergency surgical hemostasis."
+
+  # Rule 7a: Pediatric IMCI General Danger Signs (Young child under 5)
+  - id: "RED_PEDIATRIC_IMCI_DANGER"
+    level: "red"
+    all_of:
+      - "child_under_5"
+    any_of:
+      - "seizure"
+      - "unable_to_drink"
+      - "lethargy"
+    specialty: "Pediatrics"
+    action: "Immediate emergency pediatric hospitalization. Keep child warm, avoid forcing liquids if convulsing or drowsy, and transfer immediately."
+    reason: "WHO/IMCI general danger sign in a child under 5 (convulsions, inability to drink/breastfeed, or severe lethargy) indicates critical, life-threatening pediatric illness."
+
+  # Rule 7b: Pediatric Meningism / Severe Infection
+  - id: "RED_PEDIATRIC_FEVER_MENINGISM"
+    level: "red"
+    all_of:
+      - "child_under_5"
+      - "high_fever"
+      - "stiff_neck"
+    any_of: []
+    specialty: "Pediatrics"
+    action: "Immediate emergency pediatric admission for suspected meningitis or severe bacterial infection. Initiate urgent transfer."
+    reason: "High fever accompanied by neck stiffness in a young child under 5 is a cardinal danger sign of bacterial meningitis requiring urgent intravenous antibiotics."
+
+  # ----------------------------------------------------------------------------
+  # YELLOW RULES (Moderate Urgency - 24hr Clinic Assessment)
+  # ----------------------------------------------------------------------------
+
+  # Rule 8: Prolonged Fever (>3 days)
+  - id: "YELLOW_PROLONGED_FEVER"
+    level: "yellow"
+    all_of:
+      - "fever_over_3_days"
+    any_of: []
+    specialty: "General Medicine"
+    action: "Visit Primary Health Centre (PHC) or Community Health Centre (CHC) within 24 hours for clinical workup, malaria smear, and dengue testing."
+    reason: "Fever persisting for more than 3 days requires laboratory workup to exclude endemic bacterial or vector-borne infections."
+    escalate_modifiers:
+      under_5:
+        escalate_to: "red"
+        specialty_override: "Pediatrics"
+        reason_suffix: "Escalated to RED: Child under 5 with prolonged fever is at high risk of rapid pediatric decompensation."
+      pregnant:
+        escalate_to: "red"
+        specialty_override: "Obstetrics"
+        reason_suffix: "Escalated to RED: Prolonged fever in pregnancy requires immediate obstetric and infectious disease evaluation."
+      over_60:
+        escalate_to: "red"
+        reason_suffix: "Escalated to RED: Prolonged fever in an elderly patient (>60y) carries high risk of sepsis or severe underlying pathology."
+
+  # Rule 9: Persistent Dehydration Risk (Vomiting / Diarrhea >2 days)
+  - id: "YELLOW_GI_PERSISTENT"
+    level: "yellow"
+    all_of: []
+    any_of:
+      - "persistent_vomiting"
+      - "diarrhoea_over_2_days"
+    specialty: "General Medicine"
+    action: "Start Oral Rehydration Salts (ORS) in frequent small sips. Visit local clinic within 24 hours to prevent severe electrolyte dehydration."
+    reason: "Persistent vomiting or diarrheal illness lasting over 48 hours risks significant fluid depletion and electrolyte imbalance."
+    escalate_modifiers:
+      under_5:
+        escalate_to: "red"
+        specialty_override: "Pediatrics"
+        reason_suffix: "Escalated to RED: Infants and children under 5 can rapidly progress to hypovolemic shock from fluid loss."
+      over_60:
+        escalate_to: "red"
+        reason_suffix: "Escalated to RED: Elderly patients dehydrate rapidly and are at heightened risk of acute kidney injury."
+
+  # Rule 10: Pallor Screening Flag or Extreme Fatigue
+  - id: "YELLOW_PALLOR_FATIGUE"
+    level: "yellow"
+    all_of: []
+    any_of:
+      - "pallor_screening_flag"
+      - "extreme_fatigue"
+    specialty: "General Medicine (blood test)"
+    action: "Schedule an outpatient visit to Primary Health Centre for Complete Blood Count (CBC) and hemoglobin screening."
+    reason: "Clinical pallor or severe fatigue indicates potential moderate-to-severe anemia or nutritional deficiency requiring blood evaluation."
+    escalate_modifiers:
+      pregnant:
+        escalate_to: "red"
+        specialty_override: "Obstetrics"
+        reason_suffix: "Escalated to RED: Significant anemia or pallor in pregnancy directly threatens maternal and fetal safety."
+
+  # Rule 11: Mild Conjunctivitis (Watery red eye without severe pain or vision loss)
+  - id: "YELLOW_MILD_CONJUNCTIVITIS"
+    level: "yellow"
+    all_of:
+      - "eye_redness"
+      - "mild_eye_redness_watering"
+    any_of: []
+    none_of:
+      - "severe_eye_pain"
+      - "reduced_vision"
+    specialty: "Ophthalmology"
+    action: "Gently bathe eye with clean cooled boiled water. Avoid touching or rubbing the eye, and consult an eye clinician if not improving."
+    reason: "Superficial eye redness with tearing but without ocular pain or vision reduction suggests mild uncomplicated conjunctivitis."
+
+  # Rule 12: Progressive Cutaneous Rash
+  - id: "YELLOW_SPREADING_RASH"
+    level: "yellow"
+    all_of:
+      - "spreading_skin_rash"
+    any_of: []
+    specialty: "Dermatology"
+    action: "Avoid self-medicating with steroid ointments. Consult medical officer or dermatologist at CHC for examination."
+    reason: "A spreading or multi-day cutaneous rash warrants formal dermatological evaluation to determine allergic, fungal, or infectious etiology."

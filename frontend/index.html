@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRAMSEHAT - Voice-First Rural AI Healthcare</title>
+  <meta name="description" content="A voice-first AI health companion designed specifically for rural patients in India. From symptoms to treatment, one guided path.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Leaflet CSS for OpenStreetMap -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <!-- Immediate Theme Initializer to prevent flicker -->
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('gramsehat_theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.classList.add('dark-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.classList.remove('dark-theme');
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css?v=20261008_glass_precision_v7">
+  <!-- Precision Frosted-Glass Interface Styles (Specification Aligned) -->
+  <style>
+    .auth-screen-overlay,
+    [data-theme="dark"] .auth-screen-overlay {
+      display: none !important;
+    }
+    /* Main Authentication Card - 52% Translucent White with 16px Backdrop Blur */
+    .auth1-outer-card,
+    [data-theme="dark"] .auth1-outer-card {
+      background: rgba(255, 255, 255, 0.52) !important;
+      backdrop-filter: blur(16px) saturate(135%) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(135%) !important;
+      border: 1.5px solid rgba(255, 255, 255, 0.75) !important;
+      border-radius: 28px !important;
+      padding: 34px 20px 16px !important;
+      box-shadow: 
+        0 16px 40px rgba(0, 0, 0, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.04),
+        inset 0 1px 2px rgba(255, 255, 255, 0.90) !important;
+    }
+    .auth1-title,
+    [data-theme="dark"] .auth1-title {
+      color: #0F172A !important;
+      font-weight: 800 !important;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9) !important;
+    }
+    .auth1-subtitle,
+    [data-theme="dark"] .auth1-subtitle {
+      color: #1E293B !important;
+      font-weight: 500 !important;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+    /* Input Fields - Glass within Glass (65% Translucent White with 8px Blur) */
+    .auth1-input,
+    [data-theme="dark"] .auth1-input {
+      background: rgba(255, 255, 255, 0.65) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      border: 1.2px solid rgba(255, 255, 255, 0.85) !important;
+      border-radius: 13px !important;
+      color: #0F172A !important;
+      font-weight: 600 !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.75) !important;
+    }
+    .auth1-input::placeholder,
+    [data-theme="dark"] .auth1-input::placeholder {
+      color: #475569 !important;
+      font-weight: 450 !important;
+    }
+    .auth1-input:focus,
+    [data-theme="dark"] .auth1-input:focus {
+      background: rgba(255, 255, 255, 0.90) !important;
+      border-color: #2B787A !important;
+      color: #0F172A !important;
+      box-shadow: 0 0 0 3px rgba(43, 120, 122, 0.20), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+    }
+    /* Role Switcher Pill */
+    .auth1-role-switch,
+    [data-theme="dark"] .auth1-role-switch {
+      background: rgba(255, 255, 255, 0.38) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.65) !important;
+      border-radius: 14px !important;
+    }
+    .auth1-role-btn,
+    [data-theme="dark"] .auth1-role-btn {
+      color: #334155 !important;
+      font-weight: 600 !important;
+    }
+    .auth1-role-btn.active,
+    [data-theme="dark"] .auth1-role-btn.active {
+      background: rgba(255, 255, 255, 0.92) !important;
+      color: #0F172A !important;
+      border: 1px solid rgba(255, 255, 255, 0.95) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+      font-weight: 700 !important;
+    }
+    /* Identity / Social Buttons */
+    .auth1-social-btn,
+    [data-theme="dark"] .auth1-social-btn {
+      background: rgba(255, 255, 255, 0.65) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.82) !important;
+      border-radius: 12px !important;
+    }
+    .auth1-social-btn:hover,
+    [data-theme="dark"] .auth1-social-btn:hover {
+      background: rgba(255, 255, 255, 0.90) !important;
+      border-color: #2B787A !important;
+    }
+    .auth1-social-sub,
+    [data-theme="dark"] .auth1-social-sub {
+      color: #475569 !important;
+    }
+    .auth1-social-main,
+    [data-theme="dark"] .auth1-social-main {
+      color: #0F172A !important;
+      font-weight: 700 !important;
+    }
+    /* Brand Badge */
+    .auth1-floating-badge,
+    [data-theme="dark"] .auth1-floating-badge {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      border: 2px solid rgba(255, 255, 255, 0.98) !important;
+    }
+    .auth1-row-meta,
+    [data-theme="dark"] .auth1-row-meta {
+      color: #0F172A !important;
+      font-weight: 600 !important;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+    .auth1-divider-text,
+    [data-theme="dark"] .auth1-divider-text {
+      color: #334155 !important;
+      font-weight: 600 !important;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+    }
+    .auth1-divider-line,
+    [data-theme="dark"] .auth1-divider-line {
+      background: rgba(15, 23, 42, 0.16) !important;
+    }
+    .auth1-footer-text,
+    [data-theme="dark"] .auth1-footer-text {
+      color: #1E293B !important;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+    }
+    .auth1-submit-btn {
+      background: #2B787A !important;
+      color: #FFFFFF !important;
+    }
+  </style>
+</head>
+<body class="bg-surface-secondary text-dark antialiased">
+
+  <!-- TOP APP UTILITY BAR (Prototype Controls for Judges & Investors) -->
+  <header class="prototype-bar">
+    <div class="prototype-bar-inner">
+      <div class="prototype-badge">
+        <span class="status-dot"></span>
+        <span class="font-semibold text-xs tracking-wider uppercase text-blue-600">MVP Prototype</span>
+        <span class="prototype-divider">|</span>
+        <span class="text-xs text-muted">Gramsehat AI Rural Health</span>
+      </div>
+
+      <!-- Device Viewport Switcher -->
+      <div class="device-switcher" role="group" aria-label="Device Preview Toggle">
+        <button id="viewMobileBtn" class="device-btn active" title="Mobile Smartphone View (390px)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+          <span>Mobile App</span>
+        </button>
+        <button id="viewDesktopBtn" class="device-btn" title="Full Screen Responsive View">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+          <span>Full Screen</span>
+        </button>
+      </div>
+
+      <!-- Quick Screen Navigator for quick review -->
+      <div class="prototype-quick-nav">
+        <label for="screenSelect" class="text-xs text-muted font-medium">Jump to:</label>
+        <select id="screenSelect" class="quick-select">
+          <option value="screen-login" selected>0. Login / Portal (Patient & Hospital)</option>
+          <option value="screen-home">1. Home / Dashboard</option>
+          <option value="screen-voice">2. Voice Triage</option>
+          <option value="screen-reports">3. Report Explainer</option>
+          <option value="screen-screening">4. Image Screening</option>
+          <option value="screen-hospitals">5. Hospital Referral</option>
+          <option value="screen-emergency">6. Emergency / Transport</option>
+          <option value="screen-doctor">7. Doctor Pre-Alert</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER (Wraps either in mobile frame or desktop view) -->
+  <div id="appContainer" class="app-wrapper mode-mobile">
+    
+    <!-- Mobile Frame Bezel (only active in mobile mode) -->
+    <div class="mobile-frame-shell">
+      <div class="mobile-speaker-notch">
+        <div class="speaker-pill"></div>
+        <div class="camera-lens"></div>
+      </div>
+
+      <!-- THE CORE WEB APP -->
+      <div class="app-viewport">
+
+        <!-- GLOBAL HEADER / NAVIGATION -->
+        <nav class="app-header" aria-label="Main Navigation">
+          <div class="header-content">
+            <!-- LEFT: Patient Profile & Location Block (Reference: Deliver-to layout) -->
+            <div class="header-patient-block" onclick="showProfileModal()" role="button" tabindex="0" title="Active Patient: Ramlal Sharma (Uttar Pradesh, 226010) • Click to view profile">
+              <div class="patient-avatar-circle" style="overflow: hidden; padding: 0;">
+                <img src="assets/patient_avatar.jpg" alt="Ramlal Sharma" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 50%;">
+              </div>
+              <div class="patient-details-text">
+                <div class="patient-name-row">
+                  <span class="header-patient-name" id="headerPatientName" data-i18n="patientName">Ramlal Sharma</span>
+                </div>
+                <div class="patient-location-row">
+                  <span class="header-patient-location" id="headerPatientLocation" data-i18n="patientLocation">Uttar Pradesh, 226010</span>
+                  <svg class="header-location-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m9 18 6-6-6-6"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- CENTER: Desktop Navigation Links (Desktop view only) -->
+            <div class="desktop-nav-menu" role="menubar">
+              <button class="nav-link active" data-screen="screen-home" onclick="navigateTo('screen-home')">
+                <span data-i18n="navHome">Home</span>
+              </button>
+              <button class="nav-link" data-screen="screen-voice" onclick="navigateTo('screen-voice')">
+                <span data-i18n="navSymptoms">Symptoms</span>
+              </button>
+              <button class="nav-link" data-screen="screen-reports" onclick="navigateTo('screen-reports')">
+                <span data-i18n="navReports">Reports</span>
+              </button>
+              <button class="nav-link" data-screen="screen-screening" onclick="navigateTo('screen-screening')">
+                <span data-i18n="navScreening">Screening</span>
+              </button>
+              <button class="nav-link" data-screen="screen-hospitals" onclick="navigateTo('screen-hospitals')">
+                <span data-i18n="navHospitals">Hospitals</span>
+              </button>
+              <button class="nav-link text-emergency font-semibold" data-screen="screen-emergency" onclick="navigateTo('screen-emergency')">
+                <span data-i18n="navEmergency">Emergency</span>
+              </button>
+              <button class="nav-link doc-link" data-screen="screen-doctor" onclick="navigateTo('screen-doctor')">
+                <span class="doc-badge">Doctor View</span>
+              </button>
+              <button class="nav-link auth-nav-link" data-screen="screen-login" onclick="logoutUser()">
+                <span>Portal Login</span>
+              </button>
+            </div>
+
+            <!-- RIGHT: Theme Toggle & Circular Notification Bell -->
+            <div class="header-right-actions">
+              <button class="header-theme-toggle-btn" id="headerThemeToggleBtn" onclick="toggleTheme()" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+                <!-- Sun Icon (visible in dark mode to switch to light) -->
+                <svg class="theme-icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="5"></circle>
+                  <line x1="12" y1="1" x2="12" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="23"></line>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                  <line x1="1" y1="12" x2="3" y2="12"></line>
+                  <line x1="21" y1="12" x2="23" y2="12"></line>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <!-- Moon Icon (visible in light mode to switch to dark) -->
+                <svg class="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+              </button>
+              <button class="header-bell-btn" id="headerNotificationBtn" onclick="showNotificationsModal()" aria-label="Notifications" title="Health alerts & ABHA updates">
+                <svg class="bell-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="bell-badge" id="headerBellBadge">1</span>
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        <!-- MAIN SCROLLABLE SCREEN CONTENT -->
+        <main class="screens-viewport">
+
+          <!-- ========================================== -->
+          <!-- 0. AUTH / LOGIN SCREEN (Patient & Hospital)-->
+          <!-- ========================================== -->
+          <section id="screen-login" class="screen-view active">
+            <div class="auth-screen-container">
+              <!-- Overlay for high-contrast readability -->
+              <div class="auth-screen-overlay" id="authScreenOverlay"></div>
+
+
+
+              <!-- Watermelon UI Auth-01 Card Content -->
+              <div class="auth1-content-box" id="auth1ContentBox">
+                <div class="auth1-outer-card">
+                  <!-- Floating Top Brand Logo Badge matching Reference Image 1 -->
+                  <div class="auth1-floating-badge" aria-label="GramSehat GS+ Logo">
+                    <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
+                      <text x="3" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="20" fill="#2B787A" letter-spacing="-0.5">GS</text>
+                      <path d="M27 8V14M24 11H30" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+
+                  <div class="auth1-inner-card">
+
+                    <!-- Role Switcher: 1. Patient vs 2. Hospital -->
+                    <div class="auth1-role-switch" role="tablist" aria-label="Login Role">
+                      <button
+                        type="button"
+                        class="auth1-role-btn active"
+                        id="rolePatientBtn"
+                        role="tab"
+                        aria-selected="true"
+                        onclick="switchAuthRole('patient')"
+                      >
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        <span>1. Patient</span>
+                      </button>
+                      <button
+                        type="button"
+                        class="auth1-role-btn"
+                        id="roleHospitalBtn"
+                        role="tab"
+                        aria-selected="false"
+                        onclick="switchAuthRole('hospital')"
+                      >
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16M9 9h6M9 13h6M9 17h6"/></svg>
+                        <span>2. Hospital</span>
+                      </button>
+                    </div>
+
+                    <!-- Card Header -->
+                    <div class="auth1-header">
+                      <h2 class="auth1-title" id="auth1Title">Welcome to GRAMSEHAT</h2>
+                      <p class="auth1-subtitle" id="auth1Subtitle">Speak symptoms in your dialect & access village records</p>
+                    </div>
+
+                    <!-- Auth Form -->
+                    <form class="auth1-form" onsubmit="handleAuthSubmit(event)">
+                      <div class="auth1-input-wrap">
+                        <span class="auth1-input-icon">
+                          <svg id="auth1IdIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </span>
+                        <input
+                          id="auth1Identifier"
+                          class="auth1-input"
+                          type="text"
+                          placeholder="Mobile Number / ABHA Health ID"
+                          value="98765 43210"
+                          required
+                        />
+                      </div>
+
+                      <div class="auth1-input-wrap">
+                        <span class="auth1-input-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </span>
+                        <input
+                          id="auth1Password"
+                          class="auth1-input"
+                          type="password"
+                          placeholder="4-Digit Health PIN / OTP"
+                          value="4321"
+                          required
+                        />
+                        <button
+                          type="button"
+                          class="auth1-eye-btn"
+                          onclick="toggleAuthPasswordVisibility()"
+                          aria-label="Toggle password visibility"
+                        >
+                          <svg id="authEyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </button>
+                      </div>
+
+                      <div class="auth1-row-meta">
+                        <label class="auth1-checkbox-label">
+                          <input type="checkbox" id="authRememberMe" checked />
+                          <span>Remember me</span>
+                        </label>
+                        <a href="javascript:void(0)" class="auth1-forgot-link" onclick="handleForgotPassword()" id="authForgotText">Forgot PIN?</a>
+                      </div>
+
+                      <button type="submit" id="auth1SubmitBtn" class="auth1-submit-btn">
+                        <span>Sign in as Patient</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                      </button>
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="auth1-divider">
+                      <div class="auth1-divider-line"></div>
+                      <span class="auth1-divider-text" id="auth1DividerText">or instant rural health access</span>
+                      <div class="auth1-divider-line"></div>
+                    </div>
+
+                    <!-- Social / Health Identity Providers (3 items matching Image 1) -->
+                    <div class="auth1-social-grid" id="auth1SocialGrid">
+                      <button type="button" class="auth1-social-btn" onclick="quickAuthLogin('abha')" title="Ayushman Bharat Health Account">
+                        <div class="auth1-social-icon-box">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect width="20" height="14" x="2" y="5" rx="2"/><circle cx="8" cy="12" r="2.2"/><path d="M13 10h5M13 14h3"/></svg>
+                        </div>
+                        <div class="auth1-social-col">
+                          <span class="auth1-social-sub">Login with</span>
+                          <span class="auth1-social-main">ABHA</span>
+                        </div>
+                      </button>
+                      <button type="button" class="auth1-social-btn" onclick="quickAuthLogin('aadhaar')" title="Aadhaar Linked OTP">
+                        <div class="auth1-social-icon-box">
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="7" r="3" fill="#EA580C"/>
+                            <path d="M5 21c0-4.5 3.5-7.5 7-7.5s7 3 7 7.5" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M8 21c0-3 2-5 4-5s4 2 4 5" stroke="#F97316" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M11 21c0-1.2.5-2.2 1-2.2s1 1 1 2.2" stroke="#EA580C" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                        </div>
+                        <div class="auth1-social-col">
+                          <span class="auth1-social-sub">Login with</span>
+                          <span class="auth1-social-main">Aadhaar</span>
+                        </div>
+                      </button>
+                      <button type="button" class="auth1-social-btn" onclick="quickAuthLogin('asha')" title="ASHA Worker Login Assistance">
+                        <div class="auth1-social-icon-box">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </div>
+                        <div class="auth1-social-col">
+                          <span class="auth1-social-sub">Identify as</span>
+                          <span class="auth1-social-main">ASHA</span>
+                        </div>
+                      </button>
+                    </div>
+
+                  </div>
+
+                  <!-- Card Footer -->
+                  <div class="auth1-outer-footer">
+                    <p class="auth1-footer-text">
+                      <span id="auth1FooterPrompt">New to GramSehat?</span>
+                      <button type="button" class="auth1-footer-link" id="auth1FooterLink" onclick="handleNewAccountClick()">
+                        Create free ABHA card
+                      </button>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ========================================== -->
+          <!-- 1. HOME / PATIENT DASHBOARD SCREEN        -->
+          <!-- ========================================== -->
+          <section id="screen-home" class="screen-view">
+            
+            <!-- Hero Graphic Banner (Better Health. Closer to Home.) -->
+            <div class="home-banner-section">
+              <div class="home-banner-card">
+                <img
+                  src="assets/banner_rural_health.png"
+                  alt="Rural AI Healthcare - Better Health. Closer to Home."
+                  class="home-banner-img"
+                  loading="eager"
+                />
+              </div>
+            </div>
+
+            <!-- 4 Core Feature Sections (2x2 Grid) -->
+            <div class="home-features-grid">
+
+              <!-- Feature 1: Check Symptoms -->
+              <div class="feature-card feature-card-symptoms" onclick="navigateTo('screen-voice')" role="button" tabindex="0" aria-label="Check Symptoms with Voice AI">
+                <div class="feature-card-top">
+                  <div class="feature-icon-squircle">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/>
+                      <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/>
+                      <circle cx="20" cy="10" r="2"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="feature-card-body">
+                  <h3 class="feature-card-title" data-i18n="cardSymptomsTitle">Check Symptoms</h3>
+                  <p class="feature-card-desc" data-i18n="cardSymptomsDesc">Tell us how you feel in your own words</p>
+                </div>
+                <div class="feature-card-footer">
+                  <span class="feature-link-label" data-i18n="linkStartTriage">Speak & Check</span>
+                  <div class="feature-arrow-squircle">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Feature 2: Explain Report -->
+              <div class="feature-card feature-card-reports" onclick="navigateTo('screen-reports')" role="button" tabindex="0" aria-label="Explain Report & Prescriptions">
+                <div class="feature-card-top">
+                  <div class="feature-icon-squircle">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" x2="8" y1="13" y2="13"/>
+                      <line x1="16" x2="8" y1="17" y2="17"/>
+                      <line x1="10" x2="8" y1="9" y2="9"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="feature-card-body">
+                  <h3 class="feature-card-title" data-i18n="cardReportTitle">Explain Report</h3>
+                  <p class="feature-card-desc" data-i18n="cardReportDesc">Understand blood tests & prescriptions</p>
+                </div>
+                <div class="feature-card-footer">
+                  <span class="feature-link-label" data-i18n="linkDecode">Decode Report</span>
+                  <div class="feature-arrow-squircle">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Feature 3: Find Hospital -->
+              <div class="feature-card feature-card-hospital" onclick="navigateTo('screen-hospitals')" role="button" tabindex="0" aria-label="Find Hospital & Bed Availability">
+                <div class="feature-card-top">
+                  <div class="feature-icon-squircle">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                      <path d="M12 5v14"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="feature-card-body">
+                  <h3 class="feature-card-title" data-i18n="cardHospitalTitle">Find Hospital</h3>
+                  <p class="feature-card-desc" data-i18n="cardHospitalDesc">Nearby clinics, verified beds & doctors</p>
+                </div>
+                <div class="feature-card-footer">
+                  <span class="feature-link-label" data-i18n="linkViewBeds">Check Beds</span>
+                  <div class="feature-arrow-squircle">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Feature 4: Scan / Screen -->
+              <div class="feature-card feature-card-screening" onclick="navigateTo('screen-screening')" role="button" tabindex="0" aria-label="Scan & Image Screening">
+                <div class="feature-card-top">
+                  <div class="feature-icon-squircle">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                      <circle cx="12" cy="13" r="3"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="feature-card-body">
+                  <h3 class="feature-card-title" data-i18n="cardScanTitle">Scan / Screen</h3>
+                  <p class="feature-card-desc" data-i18n="cardScanDesc">Quick photo check for eye, skin, nails</p>
+                </div>
+                <div class="feature-card-footer">
+                  <span class="feature-link-label" data-i18n="linkCameraCheck">Photo Check</span>
+                  <div class="feature-arrow-squircle">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Patient Health Profile & ABHA Identity Card (Positioned below the 4 feature cards) -->
+            <div class="home-patient-card" onclick="showProfileModal()" role="button" tabindex="0" title="Click to view full health record">
+              <div class="patient-card-header">
+                <div class="patient-id-badge">
+                  <span class="id-dot"></span>
+                  <span>ABHA Verified • PM-JAY</span>
+                </div>
+                <span class="patient-card-num">ID: 9021-3312-8812</span>
+              </div>
+              <div class="patient-card-body">
+                <div class="patient-card-avatar">
+                  <img src="assets/patient_avatar.jpg" alt="Ramlal Sharma" class="patient-card-avatar-img">
+                </div>
+                <div class="patient-card-info">
+                  <h3 class="patient-card-name" data-i18n="patientName">Ramlal Sharma</h3>
+                  <p class="patient-card-meta">Age: 54 • Male • Village Shivpur, Ward 4</p>
+                  <p class="patient-card-phc">Primary Health Centre: <strong>Rampur CHC (2.1 km)</strong></p>
+                </div>
+                <span class="patient-card-arrow">›</span>
+              </div>
+            </div>
+
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- 2. VOICE TRIAGE SCREEN                    -->
+          <!-- ========================================== -->
+          <section id="screen-voice" class="screen-view">
+            <!-- Screen Top Bar (Image 1 header with circular back, title & subtitle) -->
+            <div class="symptoms-top-bar">
+              <button class="symptoms-back-circle-btn" onclick="navigateTo('screen-home')" aria-label="Go back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <div class="symptoms-titles-wrap">
+                <h2 class="symptoms-page-title" data-i18n="voiceScreenTitle">Tell us your symptoms</h2>
+              </div>
+              <button id="voiceSpeakerBtn" class="symptoms-audio-btn" onclick="playVoiceAudio()" title="Listen to instructions">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+              </button>
+            </div>
+
+            <div class="screen-body symptoms-screen-body">
+              
+              <!-- Browser Feature Detection Banner (Shown if Microphone or MediaRecorder is unavailable) -->
+              <div id="voiceUnsupportedNotice" class="voice-unsupported-banner" style="display: none;">
+                <div class="unsupported-banner-icon">⚠️</div>
+                <div class="unsupported-banner-content">
+                  <strong data-i18n="voiceNotSupportedTitle">Microphone access unavailable or denied</strong>
+                  <p data-i18n="voiceNotSupportedDesc">Please allow microphone access in your browser to speak with Sarvam AI.</p>
+                </div>
+              </div>
+
+              <!-- Web Speech API Language Configurator (Centered above Voice Orb) -->
+              <div class="voice-lang-selector-row">
+                <div class="voice-lang-toggle-group">
+                  <button type="button" class="voice-lang-pill active" id="voiceLangHi" onclick="setVoiceLanguage('hi-IN')">
+                    हिंदी (hi-IN)
+                  </button>
+                  <button type="button" class="voice-lang-pill" id="voiceLangEn" onclick="setVoiceLanguage('en-IN')">
+                    English (en-IN)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Glowing Circular Microphone Voice Orb (Image 1) -->
+              <div class="symptoms-orb-section">
+                <div class="voice-orb-glow-wrapper">
+                  <button
+                    id="triageVoiceOrb"
+                    class="voice-mic-orb-btn"
+                    onclick="toggleVoiceOrb('triage')"
+                    type="button"
+                    aria-label="Tap to speak or pause"
+                  >
+                    <div class="orb-halo-aura ring-outer"></div>
+                    <div class="orb-halo-aura ring-inner"></div>
+                    <div class="orb-gradient-sphere">
+                      <svg class="orb-mic-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="22"/>
+                      </svg>
+                    </div>
+                  </button>
+                  <div class="orb-caption-wrapper" id="triageOrbSub">
+                    <span class="orb-caption-text" data-i18n="tapToPause">बोलने के लिए ओर्ब दबाएं (Tap to Speak)</span>
+                  </div>
+
+                  <!-- Real-time Audio Waveform Volume Meter -->
+                  <div id="voiceWaveMeter" class="voice-wave-meter" style="display: none;" title="Microphone volume indicator">
+                    <span class="voice-wave-bar"></span>
+                    <span class="voice-wave-bar"></span>
+                    <span class="voice-wave-bar"></span>
+                    <span class="voice-wave-bar"></span>
+                    <span class="voice-wave-bar"></span>
+                    <span class="voice-wave-bar"></span>
+                    <span class="voice-wave-bar"></span>
+                  </div>
+
+                  <!-- Stop & Transcribe Button (prominently shown while recording) -->
+                  <button
+                    type="button"
+                    id="voiceStopCheckBtn"
+                    class="voice-stop-check-btn"
+                    style="display: none;"
+                    onclick="stopVoiceOrbListening('triage', true)"
+                  >
+                    <span>⏹️</span>
+                    <span id="voiceStopBtnText">बोलना पूरा हुआ • जांच करें (Done • Check)</span>
+                  </button>
+
+                  <!-- Live Word-by-Word Speech Transcription Stream (Shown only when words are spoken) -->
+                  <div id="liveTranscribeCard" class="live-transcribe-card" style="display: none;">
+                    <div class="live-transcribe-header">
+                      <div class="live-transcribe-dot"></div>
+                      <span id="liveTranscribeBadge" class="live-transcribe-badge" data-i18n="liveTranscribeBadge">लाइव ट्रांसक्रिप्शन • Transcribing Live</span>
+                    </div>
+                    <div class="live-transcribe-content">
+                      <p id="liveTranscribeWords" class="live-transcribe-words">
+                        <span class="live-words-stream" id="liveWordsStream"></span><span class="live-cursor-blink">|</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Conversation Dialogue Flow (Section 3: Preserves full multi-turn chat stream) -->
+              <div class="symptoms-chat-flow" id="symptomsChatFlow" style="display: none;">
+                <!-- Cumulative dialogue turns are dynamically appended and preserved here -->
+              </div>
+
+              <!-- Urgency Result Card (Image 2 Glass Clinical Card: Appears once triage is processed) -->
+              <div id="urgencyCard" class="urgency-clinical-glass-card border-moderate" style="display: none;">
+                <div class="urgency-header-row">
+                  <div class="urgency-header-left">
+                    <div class="severity-symbol-circle" id="severityCircleBadge">
+                      <svg id="severityBadgeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                      </svg>
+                    </div>
+                    <div class="care-level-meta">
+                      <span class="care-level-overline" id="careLevelSubLabel" data-i18n="careLevelLabel">Care Level</span>
+                      <strong class="care-level-headline" id="urgencyTitle" data-i18n="careLevelVal">Clinic visit recommended</strong>
+                    </div>
+                  </div>
+                  <span class="urgency-status-badge" id="urgencyStatusPill">Non-emergency</span>
+                </div>
+
+                <div class="urgency-factors-list">
+                  <!-- Why this matters -->
+                  <div class="factor-item">
+                    <div class="factor-badge badge-why">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                      </svg>
+                    </div>
+                    <div class="factor-body">
+                      <h4 class="factor-title" data-i18n="whyMattersTitle">Why this matters</h4>
+                      <p class="factor-desc" id="whyMattersText" data-i18n="whyMattersDesc">Weakness with dizziness can happen from low red blood cells (anemia), dehydration, or low blood pressure. A medical check is advisable within 24 hours.</p>
+                    </div>
+                  </div>
+
+                  <!-- What to do now -->
+                  <div class="factor-item">
+                    <div class="factor-badge badge-action">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <div class="factor-body">
+                      <h4 class="factor-title" data-i18n="whatToDoTitle">What to do now</h4>
+                      <p class="factor-desc" id="whatToDoText" data-i18n="whatToDoDesc">Sit or lie down in a cool spot. Drink clean water or ORS. Avoid sudden standing. Do not ride a bicycle or operate machinery.</p>
+                    </div>
+                  </div>
+
+                  <!-- Nearest care option -->
+                  <div class="factor-item">
+                    <div class="factor-badge badge-location">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                      </svg>
+                    </div>
+                    <div class="factor-body">
+                      <h4 class="factor-title" data-i18n="nearestCareTitle">Nearest care option</h4>
+                      <p class="factor-desc factor-desc-primary" id="nearestCareText">District Care Hospital • 4.2 km away<br><span class="duty-status-sub">(Doctor on duty now)</span></p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="urgency-button-stack">
+                  <button class="btn-find-care-glass" onclick="navigateTo('screen-hospitals')">
+                    <svg class="care-nav-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                    </svg>
+                    <span data-i18n="findCareBtn">Find Care Near Me</span>
+                    <svg class="care-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                  <button class="btn-talk-again-glass" onclick="resetVoiceTriage()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                      <path d="M3 3v5h5"/>
+                      <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+                      <path d="M16 21h5v-5"/>
+                    </svg>
+                    <span data-i18n="talkAgainBtn">Talk Again</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- 3. REPORT / PRESCRIPTION EXPLAINER        -->
+          <!-- ========================================== -->
+          <section id="screen-reports" class="screen-view">
+            <!-- Screen Top Bar -->
+            <div class="screen-nav-bar">
+              <button class="back-btn" onclick="navigateTo('screen-home')" aria-label="Go back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <h2 class="screen-title" data-i18n="reportScreenTitle">Understand your report</h2>
+              <button class="audio-assist-btn" onclick="readReportAloud()" title="Listen to explanation in audio">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
+
+            <div class="screen-body">
+
+              <!-- Large Upload Area -->
+              <div class="upload-container" id="reportUploadArea">
+                <div class="upload-icon-circle">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1463FF" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                </div>
+                <h3 class="upload-headline" data-i18n="uploadHeadline">Take a photo or upload a report</h3>
+                <p class="upload-subtext" data-i18n="uploadSubtext">Supports blood reports, clinic discharge slips, or handwritten doctor prescriptions</p>
+
+                <div class="upload-actions-group">
+                  <button class="btn-primary-action" onclick="simulateFileUpload('camera')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                    <span data-i18n="takePhotoBtn">Take Photo</span>
+                  </button>
+                  <button class="btn-outline-action" onclick="simulateFileUpload('file')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                    <span data-i18n="uploadFileBtn">Upload File</span>
+                  </button>
+                </div>
+                <input type="file" id="realFileInput" style="display:none;" accept="image/*,.pdf" onchange="handleRealFile(event)">
+              </div>
+
+              <!-- Sample Demo Toggles -->
+              <div class="sample-report-picker">
+                <span class="text-xs text-muted font-medium" data-i18n="demoReportsLabel">Demo sample reports:</span>
+                <div class="sample-pills">
+                  <button class="sample-pill active" onclick="loadSampleReport('cbc')">Sample 1: Blood Test (CBC)</button>
+                  <button class="sample-pill" onclick="loadSampleReport('rx')">Sample 2: Clinic Prescription</button>
+                </div>
+              </div>
+
+              <!-- Medical Report Preview Card -->
+              <div class="report-preview-card">
+                <div class="report-preview-header">
+                  <div class="report-meta">
+                    <span class="report-badge-pill" id="reportBadgeType">Diagnostic Lab Slip</span>
+                    <h4 class="report-doc-title" id="reportDocTitle">Complete Blood Count (CBC)</h4>
+                    <span class="text-xs text-muted">Shivpur Primary Health Centre • Oct 2, 2026</span>
+                  </div>
+                  <div class="report-doc-actions">
+                    <button class="btn-text-micro" onclick="zoomReportModal()">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="11" x2="11" y1="8" y2="14"/><line x1="8" x2="14" y1="11" y2="11"/></svg>
+                      <span>View Full Slip</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Simulated Lab Key Values Preview -->
+                <div class="report-metrics-grid" id="reportMetricsBox">
+                  <div class="metric-cell alert-highlight">
+                    <span class="metric-name">Hemoglobin (Hb)</span>
+                    <span class="metric-val text-emergency">8.2 g/dL</span>
+                    <span class="metric-ref">Normal: 13.0 - 17.0 (Low)</span>
+                  </div>
+                  <div class="metric-cell normal-highlight">
+                    <span class="metric-name">Total WBC Count</span>
+                    <span class="metric-val text-success">6,800 /µL</span>
+                    <span class="metric-ref">Normal: 4,000 - 11,000</span>
+                  </div>
+                  <div class="metric-cell normal-highlight">
+                    <span class="metric-name">Platelet Count</span>
+                    <span class="metric-val text-success">2.20 Lakh /µL</span>
+                    <span class="metric-ref">Normal: 1.5 - 4.5 Lakh</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI Explanation Section -->
+              <div class="ai-explanation-section">
+                <div class="explanation-title-row">
+                  <div>
+                    <h3 class="section-title-bold" data-i18n="hereFoundTitle">Here’s what we found</h3>
+                    <p class="text-xs text-muted" data-i18n="explainedInSimple">Explained in clear, everyday language for you and your family</p>
+                  </div>
+                  <button class="voice-audio-chip" onclick="readReportAloud()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1463FF" stroke-width="2.5"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    <span data-i18n="listenInHindi">Listen in Voice</span>
+                  </button>
+                </div>
+
+                <div class="explanation-cards-stack">
+                  <!-- Card 1: What looks normal -->
+                  <div class="simple-info-card card-normal">
+                    <div class="card-status-header">
+                      <div class="status-icon bg-green-subtle text-success">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17 4 12"/></svg>
+                      </div>
+                      <h4 class="card-status-title text-success font-bold" data-i18n="normalTitle">What looks normal</h4>
+                    </div>
+                    <ul class="simple-bullet-list" id="reportNormalList">
+                      <li>Your infection-fighting cells (WBC) are at 6,800 — meaning there is no major acute bacterial infection.</li>
+                      <li>Your platelet count is healthy at 2.2 Lakh — your blood can clot normally if you get a scratch.</li>
+                    </ul>
+                  </div>
+
+                  <!-- Card 2: What needs attention -->
+                  <div class="simple-info-card card-attention">
+                    <div class="card-status-header">
+                      <div class="status-icon bg-amber-subtle text-amber-700">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                      </div>
+                      <h4 class="card-status-title text-amber-800 font-bold" data-i18n="attentionTitle">What needs attention</h4>
+                    </div>
+                    <div class="attention-content" id="reportAttentionBox">
+                      <p class="font-medium text-dark mb-1">Hemoglobin is 8.2 g/dL (Lower than normal range 13–17)</p>
+                      <p class="text-sm text-muted">Hemoglobin is the iron protein in your blood that carries oxygen to your brain and body. When it is low, you feel tired, dizzy, and short of breath after minimal exertion (commonly known as Anemia / खून की कमी).</p>
+                    </div>
+                  </div>
+
+                  <!-- Card 3: What to ask your doctor -->
+                  <div class="simple-info-card card-questions">
+                    <div class="card-status-header">
+                      <div class="status-icon bg-blue-subtle text-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+                      </div>
+                      <h4 class="card-status-title text-primary font-bold" data-i18n="askDoctorTitle">What to ask your doctor</h4>
+                    </div>
+                    <ul class="simple-bullet-list" id="reportQuestionsList">
+                      <li>“Do I need iron supplements (like IFA tablets) or an injection?”</li>
+                      <li>“What local vegetables and grains should I eat to improve my blood (spinach, drumstick leaves, jaggery, chana)?”</li>
+                      <li>“When should I repeat this blood test to check my improvement?”</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Mandatory Medical Disclaimer -->
+                <div class="medical-disclaimer-box">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <p data-i18n="disclaimerText">This is an AI explanation to assist your understanding, not an official medical diagnosis. Always consult a licensed physician.</p>
+                </div>
+
+                <!-- Next Step Button -->
+                <div class="mt-4">
+                  <button class="btn-primary-large" onclick="navigateTo('screen-hospitals')">
+                    <span data-i18n="consultDoctorBtn">Consult Doctor for Prescription</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- 4. IMAGE SCREENING SCREEN                 -->
+          <!-- ========================================== -->
+          <section id="screen-screening" class="screen-view">
+            <!-- Screen Top Bar -->
+            <div class="screen-nav-bar">
+              <button class="back-btn" onclick="navigateTo('screen-home')" aria-label="Go back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <h2 class="screen-title" data-i18n="screeningTitle">Quick Health Check</h2>
+              <button class="audio-assist-btn" onclick="readScreeningAloud()" title="Listen to instructions">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
+
+            <div class="screen-body">
+              <div class="screening-intro-banner">
+                <p class="screening-explain-text" data-i18n="screeningExplain">Take a clear photo. GRAMSEHAT will look for visible warning signs.</p>
+                <div class="screening-pill-badge">
+                  <span>Preliminary Visual Triage</span>
+                </div>
+              </div>
+
+              <!-- 3 Screening Options -->
+              <div class="screening-types-row" role="tablist">
+                <!-- Option 1: Eye -->
+                <button class="screening-tab-btn active" id="tabEye" onclick="selectScreeningType('eye')" role="tab" aria-selected="true">
+                  <div class="tab-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </div>
+                  <span class="tab-label font-bold" data-i18n="screeningEye">Eye</span>
+                  <span class="tab-sub">Conjunctival Pallor</span>
+                </button>
+
+                <!-- Option 2: Skin -->
+                <button class="screening-tab-btn" id="tabSkin" onclick="selectScreeningType('skin')" role="tab" aria-selected="false">
+                  <div class="tab-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="7"/></svg>
+                  </div>
+                  <span class="tab-label font-bold" data-i18n="screeningSkin">Skin</span>
+                  <span class="tab-sub">Rashes & Marks</span>
+                </button>
+
+                <!-- Option 3: Nail -->
+                <button class="screening-tab-btn" id="tabNail" onclick="selectScreeningType('nail')" role="tab" aria-selected="false">
+                  <div class="tab-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"/><path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+                  </div>
+                  <span class="tab-label font-bold" data-i18n="screeningNail">Nail</span>
+                  <span class="tab-sub">Pallor & Spooning</span>
+                </button>
+              </div>
+
+              <!-- Camera Viewport / Photo Frame -->
+              <div class="camera-stage-card">
+                <div class="camera-viewfinder" id="cameraViewfinder">
+                  <!-- Reticle guide overlay -->
+                  <div class="reticle-box">
+                    <div class="corner top-left"></div>
+                    <div class="corner top-right"></div>
+                    <div class="corner bottom-left"></div>
+                    <div class="corner bottom-right"></div>
+                    <div class="scan-beam" id="scanBeam"></div>
+                  </div>
+
+                  <!-- Active Sample / Preview Graphic -->
+                  <div class="camera-target-graphic" id="cameraGraphic">
+                    <!-- SVG illustration of lower eyelid / eye screening -->
+                    <div class="screen-art eye-art" id="artContent">
+                      <svg width="120" height="90" viewBox="0 0 140 100" fill="none">
+                        <path d="M10 50 Q 70 5 130 50 Q 70 95 10 50 Z" fill="#FFF1EB" stroke="#C88E75" stroke-width="3"/>
+                        <circle cx="70" cy="50" r="24" fill="#3D2B1F"/>
+                        <circle cx="70" cy="50" r="12" fill="#111318"/>
+                        <circle cx="75" cy="45" r="4" fill="#FFFFFF"/>
+                        <!-- Lower palpebral conjunctiva highlight area (pale pink) -->
+                        <path d="M25 62 Q 70 85 115 62 Q 70 74 25 62 Z" fill="#FFC9C9" stroke="#E57373" stroke-width="1.8" stroke-dasharray="2 2"/>
+                      </svg>
+                      <span class="viewfinder-instruction-pill" id="viewfinderHint">Gently pull down lower eyelid in natural light</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Camera Action Controls -->
+                <div class="camera-controls-bar">
+                  <button id="screenPhotoBtn" class="camera-trigger-btn" onclick="runSimulatedScreening()">
+                    <div class="trigger-circle">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                    </div>
+                    <span class="trigger-label font-bold" data-i18n="takePhotoCamera">Take Photo</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Sample Screening Result Card -->
+              <div id="screeningResultCard" class="screening-result-card">
+                <div class="result-flag-header bg-amber-subtle border-amber">
+                  <div class="flag-icon-circle text-amber-700">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                  </div>
+                  <div>
+                    <h4 class="result-flag-title text-amber-900 font-bold" data-i18n="warningSignDetected">Possible warning sign detected</h4>
+                    <p class="text-xs text-amber-800" data-i18n="considerCheckup">Please consider a clinical check-up.</p>
+                  </div>
+                </div>
+
+                <div class="result-body-pad">
+                  <div class="sign-metric-row">
+                    <div>
+                      <span class="text-xs text-muted">Screening Focus:</span>
+                      <strong class="block text-sm" id="resultTypeLabel">Lower Palpebral Conjunctiva</strong>
+                    </div>
+                    <span class="screening-score-badge">Visual Pallor Score: High</span>
+                  </div>
+
+                  <p class="text-sm text-muted mt-2" id="resultExplanation">
+                    The lower inner eyelid tissue appears significantly paler than typical healthy vascular pink. This is a common visible sign associated with iron deficiency anemia.
+                  </p>
+
+                  <!-- Screening vs Diagnosis Clear Notice -->
+                  <div class="screening-boundary-notice">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5E6470" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <span data-i18n="screeningNotice">This is visual SCREENING only. It cannot confirm exact blood levels. Please get a confirmatory fingerprick or lab test at your health center.</span>
+                  </div>
+
+                  <div class="screening-actions-row">
+                    <button class="btn-primary-large" onclick="navigateTo('screen-hospitals')">
+                      <span data-i18n="findPHCBtn">Find Nearby Health Centre</span>
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- 5. HOSPITAL REFERRAL SCREEN               -->
+          <!-- ========================================== -->
+          <section id="screen-hospitals" class="screen-view">
+            <!-- Screen Top Bar -->
+            <div class="screen-nav-bar">
+              <button class="back-btn" onclick="navigateTo('screen-home')" aria-label="Go back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <h2 class="screen-title" data-i18n="hospitalsTitle">Finding the right care</h2>
+              <button class="audio-assist-btn" onclick="readHospitalsAloud()" title="Listen to options">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              </button>
+            </div>
+
+            <div class="screen-body">
+
+              <!-- OpenStreetMap + Leaflet.js Healthcare Network Area -->
+              <div class="map-view-card">
+                <div class="leaflet-map-wrapper">
+                  <div id="hospitalLeafletMap" class="hospital-leaflet-canvas" role="region" aria-label="Interactive OpenStreetMap of nearby healthcare facilities"></div>
+                  
+
+
+                  <!-- Bottom Right: Recenter Control Button -->
+                  <div class="map-floating-control bottom-right">
+                    <button class="map-recenter-btn" onclick="recenterHospitalMap()" title="Recenter map" aria-label="Recenter map">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 2v3m0 14v3M2 12h3m14 0h3"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Filter Pills for Rural Hospitals -->
+              <div class="hospital-filter-row">
+                <button class="filter-pill active" onclick="filterHospitals('all')">All Verified</button>
+                <button class="filter-pill" onclick="filterHospitals('free')">Ayushman (Free)</button>
+                <button class="filter-pill" onclick="filterHospitals('beds')">Bed Available</button>
+                <button class="filter-pill" onclick="filterHospitals('emergency')">24/7 Emergency</button>
+              </div>
+
+              <!-- Hospital List Cards -->
+              <div class="hospitals-list-stack">
+
+                <!-- Hospital Card 1 (Recommended District Care) -->
+                <div class="hospital-card featured-card" id="card-district" onclick="focusHospitalOnMap('district')">
+                  <div class="hospital-card-top">
+                    <div>
+                      <div class="hospital-title-row">
+                        <h3 class="hospital-name">District Care Hospital</h3>
+                        <span class="recommended-badge" data-i18n="recommendedTag">Best Match for Anemia & Weakness</span>
+                      </div>
+                      <div class="hospital-meta-tags">
+                        <span class="meta-tag distance">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          <span>4.2 km • 18 min away</span>
+                        </span>
+                        <span class="meta-tag govt">Govt Sub-District • Free Ayushman</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="hospital-specs-grid">
+                    <div class="spec-item">
+                      <span class="spec-label" data-i18n="specSpecialist">Specialist available:</span>
+                      <strong class="spec-val">General Medicine (Dr. S. K. Verma)</strong>
+                    </div>
+                    <div class="spec-item">
+                      <span class="spec-label" data-i18n="specBeds">Bed availability:</span>
+                      <strong class="spec-val text-success">
+                        <span class="text-success">●</span> Bed available (14 General, 2 ICU)
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class="hospital-card-actions">
+                    <button class="btn-primary-action flex-grow" onclick="chooseHospitalAndAlert('District Care Hospital', '4.2 km', '18 min')">
+                      <span data-i18n="chooseHospitalBtn">Choose Hospital</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                    <button class="btn-outline-action" onclick="viewHospitalModal('district')">
+                      <span data-i18n="viewDetailsBtn">View Details</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Hospital Card 2: Rampur CHC -->
+                <div class="hospital-card" id="card-chc" onclick="focusHospitalOnMap('chc')">
+                  <div class="hospital-card-top">
+                    <div>
+                      <div class="hospital-title-row">
+                        <h3 class="hospital-name">Rampur Community Health Centre (CHC)</h3>
+                      </div>
+                      <div class="hospital-meta-tags">
+                        <span class="meta-tag distance">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          <span>2.1 km • 9 min away</span>
+                        </span>
+                        <span class="meta-tag govt">Community Health Centre</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="hospital-specs-grid">
+                    <div class="spec-item">
+                      <span class="spec-label" data-i18n="specSpecialist">Specialist available:</span>
+                      <strong class="spec-val">Medical Officer (Dr. Anjali Patel)</strong>
+                    </div>
+                    <div class="spec-item">
+                      <span class="spec-label" data-i18n="specBeds">Bed availability:</span>
+                      <strong class="spec-val text-success">
+                        <span>●</span> Bed available (6 Daycare Beds)
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class="hospital-card-actions">
+                    <button class="btn-primary-action flex-grow" onclick="chooseHospitalAndAlert('Rampur CHC', '2.1 km', '9 min')">
+                      <span data-i18n="chooseHospitalBtn">Choose Hospital</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                    <button class="btn-outline-action" onclick="viewHospitalModal('chc')">
+                      <span data-i18n="viewDetailsBtn">View Details</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Hospital Card 3: Jeevan Jyoti Trust Hospital -->
+                <div class="hospital-card" id="card-trust" onclick="focusHospitalOnMap('trust')">
+                  <div class="hospital-card-top">
+                    <div>
+                      <div class="hospital-title-row">
+                        <h3 class="hospital-name">Jeevan Jyoti Charitable Hospital</h3>
+                      </div>
+                      <div class="hospital-meta-tags">
+                        <span class="meta-tag distance">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          <span>6.8 km • 24 min away</span>
+                        </span>
+                        <span class="meta-tag">Trust / Subsidized</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="hospital-specs-grid">
+                    <div class="spec-item">
+                      <span class="spec-label" data-i18n="specSpecialist">Specialist available:</span>
+                      <strong class="spec-val">Internal Medicine & Diagnostics</strong>
+                    </div>
+                    <div class="spec-item">
+                      <span class="spec-label" data-i18n="specBeds">Bed availability:</span>
+                      <strong class="spec-val text-success">
+                        <span>●</span> Bed available (8 Beds)
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div class="hospital-card-actions">
+                    <button class="btn-primary-action flex-grow" onclick="chooseHospitalAndAlert('Jeevan Jyoti Hospital', '6.8 km', '24 min')">
+                      <span data-i18n="chooseHospitalBtn">Choose Hospital</span>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                    <button class="btn-outline-action" onclick="viewHospitalModal('trust')">
+                      <span data-i18n="viewDetailsBtn">View Details</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- 6. EMERGENCY / TRANSPORT SCREEN           -->
+          <!-- ========================================== -->
+          <section id="screen-emergency" class="screen-view">
+            <!-- Screen Top Bar -->
+            <div class="screen-nav-bar bg-emergency-subtle">
+              <button class="back-btn" onclick="navigateTo('screen-home')" aria-label="Go back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+              <h2 class="screen-title text-emergency" data-i18n="emergencyScreenTitle">Get help on the way</h2>
+              <div class="emergency-badge-pulse">108 ACTIVE</div>
+            </div>
+
+            <div class="screen-body">
+              
+              <!-- Large Emergency Status Card -->
+              <div class="emergency-hero-card">
+                <div class="emergency-status-header">
+                  <div class="beacon-pulse-icon">
+                    <div class="beacon-wave"></div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E02D3C" stroke-width="2.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1 .4-1 1v7c0 .6.4 1 1 1h1"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                  </div>
+                  <div>
+                    <h3 class="emergency-main-status" data-i18n="transportRequested">Transport requested</h3>
+                    <p class="text-xs text-muted" data-i18n="driverAssignedSub">Paramedic notified • Doctor alert sent</p>
+                  </div>
+                  <div class="eta-box">
+                    <span class="eta-num" id="liveEtaCount">11</span>
+                    <span class="eta-unit">min ETA</span>
+                  </div>
+                </div>
+
+                <!-- Simple Progress Indicator -->
+                <div class="progress-stepper-wrap">
+                  <div class="stepper-label-track">
+                    <div class="step-point completed">
+                      <div class="step-dot">✓</div>
+                      <span class="step-text" data-i18n="stepRequested">Requested</span>
+                    </div>
+                    <div class="step-line active"></div>
+                    <div class="step-point completed">
+                      <div class="step-dot">✓</div>
+                      <span class="step-text" data-i18n="stepAssigned">Driver assigned</span>
+                    </div>
+                    <div class="step-line active"></div>
+                    <div class="step-point current">
+                      <div class="step-dot pulse"></div>
+                      <span class="step-text font-bold text-primary" data-i18n="stepOnWay">On the way</span>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step-point">
+                      <div class="step-dot">4</div>
+                      <span class="step-text" data-i18n="stepHospital">Hospital</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Emergency Dispatch Details Grid -->
+                <div class="emergency-detail-table">
+                  <div class="table-row">
+                    <span class="table-key" data-i18n="ambulanceVehicle">Ambulance:</span>
+                    <strong class="table-val">Govt 108 Ambulance #UP-32-E-1082</strong>
+                  </div>
+                  <div class="table-row">
+                    <span class="table-key" data-i18n="driverName">Driver / Paramedic:</span>
+                    <strong class="table-val">Rajesh Kumar (First Responder)</strong>
+                  </div>
+                  <div class="table-row">
+                    <span class="table-key" data-i18n="patientLocation">Patient location:</span>
+                    <strong class="table-val">Village Shivpur, Near Panchayat Bhavan</strong>
+                  </div>
+                  <div class="table-row">
+                    <span class="table-key" data-i18n="destinationHospital">Destination hospital:</span>
+                    <strong class="table-val text-primary" id="transportDestName">District Care Hospital</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- High Contrast Call for Help Button -->
+              <div class="emergency-call-actions">
+                <a href="tel:108" class="btn-emergency-hero" onclick="simulateEmergencyCall(event)">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span data-i18n="callForHelpBtn">Call for Help (108)</span>
+                </a>
+
+                <div class="secondary-emergency-links">
+                  <button class="link-contact-action" onclick="alertContactFamily()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span>Send SMS Alert to Family Contact (Village Sarpanch / Son)</span>
+                  </button>
+                  <button class="link-doctor-preview-action" onclick="navigateTo('screen-doctor')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+                    <span>View Hospital Doctor Pre-Alert Screen →</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+
+          <!-- ========================================== -->
+          <!-- 7. DOCTOR PRE-ALERT SCREEN                -->
+          <!-- ========================================== -->
+          <section id="screen-doctor" class="screen-view">
+            <!-- Screen Top Bar (Doctor Portal Mode) -->
+            <div class="doctor-top-nav">
+              <div class="doc-header-brand">
+                <span class="doc-tag">CLINICIAN PRE-ARRIVAL PORTAL</span>
+                <h2 class="doc-portal-title">District Care Hospital • ER Department</h2>
+              </div>
+              <div class="doc-header-status">
+                <span class="pulse-beacon-yellow"></span>
+                <span class="text-xs font-semibold">Incoming Alert Active</span>
+                <button class="exit-doc-btn" onclick="navigateTo('screen-home')" title="Back to Patient App">
+                  Exit to Patient View ✕
+                </button>
+              </div>
+            </div>
+
+            <div class="screen-body doc-portal-body">
+              
+              <!-- Patient Arriving Banner -->
+              <div class="incoming-alert-banner">
+                <div class="arrival-time-highlight">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span class="font-bold text-sm">Patient arriving in approximately 18 minutes.</span>
+                </div>
+                <div class="doc-transport-pill">
+                  <span>Transport: 108 Ambulance #UP-32-E-1082</span>
+                </div>
+              </div>
+
+              <!-- Main Doctor Pre-Alert Card -->
+              <div class="doctor-dossier-card">
+                <div class="dossier-header">
+                  <div class="patient-id-block">
+                    <span class="patient-id-tag">ID: GS-2026-9810</span>
+                    <h3 class="patient-full-name">Ramlal Sharma</h3>
+                    <p class="patient-demographics">54 Yrs • Male • Shivpur Village, Ward 4</p>
+                  </div>
+
+                  <div class="triage-acuity-box">
+                    <span class="acuity-label">Triage Urgency</span>
+                    <span class="acuity-pill-amber">Level 3 • Moderate</span>
+                    <span class="text-xs text-muted">Clinic Visit Recommended</span>
+                  </div>
+                </div>
+
+                <!-- Structured Clinical Data Columns -->
+                <div class="dossier-grid">
+                  
+                  <!-- Left Col: Symptoms & AI Synthesis -->
+                  <div class="dossier-column">
+                    <div class="clinical-sub-box">
+                      <h4 class="clinical-box-title">Main Symptoms & Voice Input</h4>
+                      <p class="clinical-symptom-text">
+                        “I have been feeling weak and dizzy since yesterday.”
+                      </p>
+                      <ul class="clinical-points">
+                        <li>Onset: Acute, ~48 hours duration.</li>
+                        <li>Triggers: Orthostatic dizziness when standing up from cot.</li>
+                        <li>Negative signs: No chest tightness, no fever reported on voice check.</li>
+                      </ul>
+                    </div>
+
+                    <div class="clinical-sub-box bg-blue-subtle border-blue">
+                      <h4 class="clinical-box-title text-primary flex items-center gap-1">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        GRAMSEHAT AI Pre-Arrival Clinical Summary
+                      </h4>
+                      <p class="text-xs text-dark leading-relaxed">
+                        Patient evaluated via native voice triage for progressive lethargy and orthostatic lightheadedness. Image screening of lower palpebral conjunctiva showed significant visual pallor (score 0.78). Uploaded CBC lab confirms severe microcytic hypochromic anemia (Hemoglobin 8.2 g/dL, normal leukocyte and platelet indices). Paramedic on 108 vehicle has placed patient in recumbent position.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Right Col: Reports, Screenings, & Transport -->
+                  <div class="dossier-column">
+                    <div class="clinical-sub-box">
+                      <h4 class="clinical-box-title">Relevant Lab Report & Flags</h4>
+                      <div class="lab-compact-table">
+                        <div class="compact-lab-row alert">
+                          <span class="lab-name">Hemoglobin (Hb)</span>
+                          <span class="lab-val font-bold text-emergency">8.2 g/dL (LOW)</span>
+                          <span class="lab-badge">Flagged</span>
+                        </div>
+                        <div class="compact-lab-row">
+                          <span class="lab-name">Total Leukocyte (WBC)</span>
+                          <span class="lab-val">6,800 /µL</span>
+                          <span class="lab-badge normal">Normal</span>
+                        </div>
+                        <div class="compact-lab-row">
+                          <span class="lab-name">Platelet Count</span>
+                          <span class="lab-val">2.20 Lakh /µL</span>
+                          <span class="lab-badge normal">Normal</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="clinical-sub-box">
+                      <h4 class="clinical-box-title">Screening & Vital Signs</h4>
+                      <div class="vitals-strip">
+                        <div class="vital-item">
+                          <span class="vital-label">Visual Screening</span>
+                          <strong class="vital-data text-amber-700">Eye Pallor Flag (+)</strong>
+                        </div>
+                        <div class="vital-item">
+                          <span class="vital-label">Transport Status</span>
+                          <strong class="vital-data text-primary">In Transit (ETA 18m)</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Doctor Actions Toolbar -->
+                <div class="doctor-action-toolbar">
+                  <div class="doc-actions-left">
+                    <button class="btn-primary-doc" onclick="prepareDoctorArrival()">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                      <span>Prepare for Arrival</span>
+                    </button>
+                    <button class="btn-outline-doc" onclick="openFullDossierModal()">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>
+                      <span>View Full Summary</span>
+                    </button>
+                  </div>
+                  <div class="doc-ack-status" id="docAckStatus">
+                    <span class="text-xs text-muted">Status: Unacknowledged</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </section>
+
+        </main>
+
+        <!-- MOBILE FLOATING DOCK NAVIGATION (From Uiverse.io by cf2-exe) -->
+        <nav class="mobile-bottom-bar" aria-label="Mobile Navigation">
+          <div class="cf2-dock-container flex justify-center items-center relative transition-all duration-[450ms] ease-in-out w-full">
+            <article class="cf2-dock-article border border-solid border-gray-200 w-full ease-in-out duration-500 rounded-2xl flex shadow-lg shadow-black/15 bg-white">
+              
+              <!-- Tab 1: Home Dashboard -->
+              <label class="cf2-dock-label has-[:checked]:shadow-lg relative w-full h-14 p-2 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-col gap-1 items-center justify-center text-black rounded-xl active" for="cf2-tab-home" title="Home" onclick="navigateTo('screen-home')">
+                <input id="cf2-tab-home" name="cf2-bottom-path" type="radio" class="hidden peer/expand cf2-dock-radio" checked />
+                <svg viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg" class="cf2-dock-icon text-xl peer-checked/expand:scale-115 ease-in-out duration-300">
+                  <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z"></path>
+                </svg>
+                <span class="dock-tab-label" data-i18n="tabHome">Home</span>
+              </label>
+
+              <!-- Tab 2: Symptoms -->
+              <label class="cf2-dock-label has-[:checked]:shadow-lg relative w-full h-14 p-2 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-col gap-1 items-center justify-center text-black rounded-xl" for="cf2-tab-voice" title="Symptoms" onclick="navigateTo('screen-voice')">
+                <input id="cf2-tab-voice" name="cf2-bottom-path" type="radio" class="hidden peer/expand cf2-dock-radio" />
+                <svg viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="cf2-dock-icon stroke-current text-xl peer-checked/expand:scale-115 ease-in-out duration-300">
+                  <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/>
+                  <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/>
+                  <circle cx="20" cy="10" r="2"/>
+                </svg>
+                <span class="dock-tab-label" data-i18n="tabSymptoms">Symptoms</span>
+              </label>
+
+              <!-- Tab 3: Reports -->
+              <label class="cf2-dock-label has-[:checked]:shadow-lg relative w-full h-14 p-2 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-col gap-1 items-center justify-center text-black rounded-xl" for="cf2-tab-reports" title="Reports" onclick="navigateTo('screen-reports')">
+                <input id="cf2-tab-reports" name="cf2-bottom-path" type="radio" class="hidden peer/expand cf2-dock-radio" />
+                <svg viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg" class="cf2-dock-icon text-xl peer-checked/expand:scale-115 ease-in-out duration-300">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 9V3.5L18.5 8H14v1zM8 12h8v2H8v-2zm0 4h8v2H8v-2z"></path>
+                </svg>
+                <span class="dock-tab-label" data-i18n="tabReports">Reports</span>
+              </label>
+
+              <!-- Tab 4: Hospitals -->
+              <label class="cf2-dock-label has-[:checked]:shadow-lg relative w-full h-14 p-2 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-col gap-1 items-center justify-center text-black rounded-xl" for="cf2-tab-hospitals" title="Hospitals" onclick="navigateTo('screen-hospitals')">
+                <input id="cf2-tab-hospitals" name="cf2-bottom-path" type="radio" class="hidden peer/expand cf2-dock-radio" />
+                <svg viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="cf2-dock-icon stroke-current text-xl peer-checked/expand:scale-115 ease-in-out duration-300">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                  <path d="M12 5v14"/>
+                </svg>
+                <span class="dock-tab-label" data-i18n="tabHospitals">Hospitals</span>
+              </label>
+
+              <!-- Tab 5: Emergency -->
+              <label class="cf2-dock-label dock-label-emergency has-[:checked]:shadow-lg relative w-full h-14 p-2 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-col gap-1 items-center justify-center text-black rounded-xl" for="cf2-tab-emergency" title="Emergency" onclick="navigateTo('screen-emergency')">
+                <input id="cf2-tab-emergency" name="cf2-bottom-path" type="radio" class="hidden peer/expand cf2-dock-radio" />
+                <svg viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#DC2626" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="cf2-dock-icon text-red-600 stroke-red-600 peer-hover/expand:scale-115 peer-checked/expand:scale-115 ease-in-out duration-300">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" x2="12" y1="8" y2="12"/>
+                  <line x1="12" x2="12.01" y1="16" y2="16"/>
+                </svg>
+                <span class="dock-tab-label text-red-600 font-bold" data-i18n="tabEmergency">Emergency</span>
+              </label>
+
+            </article>
+          </div>
+        </nav>
+
+      </div> <!-- end .app-viewport -->
+    </div> <!-- end .mobile-frame-shell -->
+  </div> <!-- end #appContainer -->
+
+
+  <!-- ========================================== -->
+  <!-- MODALS & OVERLAYS                          -->
+  <!-- ========================================== -->
+
+  <!-- Help & Voice Guide Modal -->
+  <div id="helpModal" class="modal-overlay" onclick="closeAllModals(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" data-i18n="helpTitle">How to use GRAMSEHAT</h3>
+        <button class="modal-close" onclick="closeAllModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="help-step">
+          <span class="step-num">1</span>
+          <div>
+            <h4 class="font-bold text-sm" data-i18n="helpStep1Title">Tap the Blue Microphone</h4>
+            <p class="text-xs text-muted" data-i18n="helpStep1Desc">Speak simply in Hindi or your own local language. Explain what feels wrong.</p>
+          </div>
+        </div>
+        <div class="help-step">
+          <span class="step-num">2</span>
+          <div>
+            <h4 class="font-bold text-sm" data-i18n="helpStep2Title">Understand your health</h4>
+            <p class="text-xs text-muted" data-i18n="helpStep2Desc">AI explains whether you need home rest, a local clinic visit, or immediate urgent care.</p>
+          </div>
+        </div>
+        <div class="help-step">
+          <span class="step-num">3</span>
+          <div>
+            <h4 class="font-bold text-sm" data-i18n="helpStep3Title">Hospital & Transport</h4>
+            <p class="text-xs text-muted" data-i18n="helpStep3Desc">Get connected to nearest verified hospital with beds and alert the doctor before you arrive.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary-large" onclick="closeAllModals()" data-i18n="gotItBtn">Got it, thanks!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile & Village Details Modal -->
+  <div id="profileModal" class="modal-overlay" onclick="closeAllModals(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">Patient Health Profile</h3>
+        <button class="modal-close" onclick="closeAllModals()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="profile-card-summary">
+          <div class="avatar-large" style="overflow: hidden; padding: 0;">
+            <img src="assets/patient_avatar.jpg" alt="Ramlal Sharma" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit;">
+          </div>
+          <div>
+            <h4 class="font-bold">Ramlal Sharma</h4>
+            <p class="text-xs text-muted">Age: 54 • Gender: Male</p>
+            <span class="badge-green-sm">Ayushman Bharat ID: 9021-3312-8812</span>
+          </div>
+        </div>
+        <div class="profile-meta-list">
+          <div class="meta-row">
+            <span class="text-xs text-muted">Village:</span>
+            <span class="text-xs font-semibold">Shivpur, Block Rampur</span>
+          </div>
+          <div class="meta-row">
+            <span class="text-xs text-muted">Registered PHC:</span>
+            <span class="text-xs font-semibold">Rampur Community Health Centre</span>
+          </div>
+          <div class="meta-row">
+            <span class="text-xs text-muted">Emergency Contact:</span>
+            <span class="text-xs font-semibold">Son: +91 98765-12345</span>
+          </div>
+          <div class="meta-row">
+            <span class="text-xs text-muted">Preferred Language:</span>
+            <span class="text-xs font-semibold">हिंदी (Hindi) / English</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer flex flex-col gap-2">
+        <button class="btn-primary-large w-full" onclick="closeAllModals(); logoutUser();">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+          <span>Log Out / Switch Portal</span>
+        </button>
+        <button class="btn-outline-action w-full" onclick="closeAllModals()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hospital Details Modal -->
+  <div id="hospitalModal" class="modal-overlay" onclick="closeAllModals(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="hospitalModalTitle">Hospital Details</h3>
+        <button class="modal-close" onclick="closeAllModals()">✕</button>
+      </div>
+      <div class="modal-body" id="hospitalModalBody">
+        <!-- Dynamically injected -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary-large" id="modalChooseHospitalBtn">Choose Hospital & Notify Doctor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Doctor Full Dossier Modal -->
+  <div id="doctorModal" class="modal-overlay" onclick="closeAllModals(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">Clinical Triage Intake Summary</h3>
+        <button class="modal-close" onclick="closeAllModals()">✕</button>
+      </div>
+      <div class="modal-body text-xs text-dark space-y-3">
+        <div class="bg-gray-50 p-3 rounded-lg border border-border">
+          <p class="font-bold text-sm mb-1">Standardized SBAR Summary</p>
+          <p><strong>Situation:</strong> 54yo M presenting with acute onset weakness & orthostatic dizziness.</p>
+          <p><strong>Background:</strong> Resident of Shivpur village. Known diet low in iron. No previous cardiac history.</p>
+          <p><strong>Assessment:</strong> Severe microcytic anemia (Hb 8.2 g/dL), palpebral pallor. Acuity Level 3.</p>
+          <p><strong>Recommendation:</strong> Bed allocation in Acute Observation Ward, stat IV line, CBC recheck & oral/IV iron replacement.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary-doc w-full" onclick="closeAllModals()">Acknowledge & Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications & Health Alerts Modal -->
+  <div id="notificationsModal" class="modal-overlay" onclick="closeAllModals(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-blue-50 text-primary flex items-center justify-center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <h3 class="modal-title">Health Alerts & Updates</h3>
+        </div>
+        <button class="modal-close" onclick="closeAllModals()">✕</button>
+      </div>
+      <div class="modal-body space-y-3">
+        <div class="p-3 bg-blue-50/70 rounded-xl border border-blue-100 flex items-start gap-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-primary mt-1 flex-shrink-0"></span>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-dark">Rampur CHC • Doctor on Duty</h4>
+              <span class="text-[10px] text-muted font-medium">Just now</span>
+            </div>
+            <p class="text-xs text-muted mt-0.5">Dr. Anjali Patel (MBBS, MD) is on active duty. 4 general observation beds currently available.</p>
+          </div>
+        </div>
+
+        <div class="p-3 bg-gray-50 rounded-xl border border-border flex items-start gap-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1 flex-shrink-0"></span>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-dark">CBC Lab Report Ready</h4>
+              <span class="text-[10px] text-muted font-medium">Today</span>
+            </div>
+            <p class="text-xs text-muted mt-0.5">Your complete blood count analysis has been processed. Mild anemia detected. Nutrition guidance available.</p>
+          </div>
+        </div>
+
+        <div class="p-3 bg-gray-50 rounded-xl border border-border flex items-start gap-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500 mt-1 flex-shrink-0"></span>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-dark">Ayushman Arogya Camp</h4>
+              <span class="text-[10px] text-muted font-medium">Sunday</span>
+            </div>
+            <p class="text-xs text-muted mt-0.5">Free comprehensive screening camp at Shivpur Panchayat Bhavan from 9:00 AM to 4:00 PM.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer flex items-center justify-between">
+        <button class="text-xs text-primary font-semibold hover:underline" onclick="clearNotificationBadge()">Mark all as read</button>
+        <button class="btn-primary-large text-xs py-2 px-4" onclick="closeAllModals()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toastNotification" class="toast-bubble" role="status" aria-live="polite">
+    <div class="toast-content" id="toastContent">Message text</div>
+  </div>
+
+  <!-- Leaflet.js for OpenStreetMap -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
