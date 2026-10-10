@@ -5935,6 +5935,14 @@ body,
   stroke: #2DD4BF !important;
 }
 
+[data-theme="dark"] .cf2-dock-label:not(.dock-label-emergency).active svg[fill="none"] path,
+[data-theme="dark"] .cf2-dock-label:not(.dock-label-emergency):has(.cf2-dock-radio:checked) svg[fill="none"] path,
+[data-theme="dark"] .cf2-dock-label:not(.dock-label-emergency).active svg[fill="none"] circle,
+[data-theme="dark"] .cf2-dock-label:not(.dock-label-emergency):has(.cf2-dock-radio:checked) svg[fill="none"] circle {
+  fill: none !important;
+  stroke: #2DD4BF !important;
+}
+
 /* Auth / Login Screen in Dark Mode */
 [data-theme="dark"] .auth1-outer-card {
   background: rgba(255, 255, 255, 0.52) !important;

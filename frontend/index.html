@@ -1540,13 +1540,14 @@
                 <span class="dock-tab-label" data-i18n="tabSymptoms">Symptoms</span>
               </label>
 
-              <!-- Tab 3: Reports -->
-              <label class="cf2-dock-label has-[:checked]:shadow-lg relative w-full h-14 p-2 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-col gap-1 items-center justify-center text-black rounded-xl" for="cf2-tab-reports" title="Reports" onclick="navigateTo('screen-reports')">
-                <input id="cf2-tab-reports" name="cf2-bottom-path" type="radio" class="hidden peer/expand cf2-dock-radio" />
-                <svg viewBox="0 0 24 24" height="20" width="20" xmlns="http://www.w3.org/2000/svg" class="cf2-dock-icon text-xl peer-checked/expand:scale-115 ease-in-out duration-300">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 9V3.5L18.5 8H14v1zM8 12h8v2H8v-2zm0 4h8v2H8v-2z"></path>
+              <!-- Tab 3: Scan / Screen (Camera Logo in the middle) -->
+              <label class="cf2-dock-label has-[:checked]:shadow-lg relative w-full h-14 p-2 ease-in-out duration-300 border-solid border-black/10 has-[:checked]:border group flex flex-col gap-1 items-center justify-center text-black rounded-xl" for="cf2-tab-screening" title="Scan / Screen" onclick="navigateTo('screen-screening')">
+                <input id="cf2-tab-screening" name="cf2-bottom-path" type="radio" class="hidden peer/expand cf2-dock-radio" />
+                <svg viewBox="0 0 24 24" height="21" width="21" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="cf2-dock-icon stroke-current text-xl peer-checked/expand:scale-115 ease-in-out duration-300">
+                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                  <circle cx="12" cy="13" r="3"/>
                 </svg>
-                <span class="dock-tab-label" data-i18n="tabReports">Reports</span>
+                <span class="dock-tab-label" data-i18n="tabScan">Scan</span>
               </label>
 
               <!-- Tab 4: Hospitals -->

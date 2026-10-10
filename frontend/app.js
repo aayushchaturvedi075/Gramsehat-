@@ -34,7 +34,8 @@ const translations = {
     tabHome: "Home",
     tabSymptoms: "Symptoms",
     tabReports: "Reports",
-    tabScreening: "Screening",
+    tabScan: "Scan",
+    tabScreening: "Scan",
     tabHospitals: "Hospitals",
     tabEmergency: "Emergency",
     exploreTabsLabel: "Health Service Tabs",
@@ -177,6 +178,7 @@ const translations = {
     tabHome: "होम",
     tabSymptoms: "लक्षण",
     tabReports: "रिपोर्ट्स",
+    tabScan: "जांच",
     tabScreening: "जांच",
     tabHospitals: "अस्पताल",
     tabEmergency: "आपातकालीन",
@@ -684,6 +686,7 @@ function navigateTo(screenId) {
   const dockMap = {
     'screen-home': 'cf2-tab-home',
     'screen-voice': 'cf2-tab-voice',
+    'screen-screening': 'cf2-tab-screening',
     'screen-reports': 'cf2-tab-reports',
     'screen-hospitals': 'cf2-tab-hospitals',
     'screen-emergency': 'cf2-tab-emergency'
