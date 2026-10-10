@@ -4354,6 +4354,18 @@ html:not([data-theme="dark"]) .header-theme-toggle-btn:hover .theme-icon-moon {
   stroke: #2B787A !important;
 }
 
+.cf2-dock-label:not(.dock-label-emergency).active svg[fill="none"] circle[fill="none"],
+.cf2-dock-label:not(.dock-label-emergency):has(.cf2-dock-radio:checked) svg[fill="none"] circle[fill="none"] {
+  fill: none !important;
+  stroke: #2B787A !important;
+}
+
+.cf2-dock-label:not(.dock-label-emergency).active svg circle[fill="currentColor"],
+.cf2-dock-label:not(.dock-label-emergency):has(.cf2-dock-radio:checked) svg circle[fill="currentColor"] {
+  fill: #2B787A !important;
+  stroke: none !important;
+}
+
 .cf2-dock-label:not(.dock-label-emergency):has(.cf2-dock-radio:checked) .dock-tab-label,
 .cf2-dock-label:not(.dock-label-emergency).active .dock-tab-label {
   color: #2B787A !important;
@@ -5946,6 +5958,12 @@ body,
 [data-theme="dark"] .cf2-dock-label:not(.dock-label-emergency):has(.cf2-dock-radio:checked) svg[fill="none"] circle {
   fill: none !important;
   stroke: #2DD4BF !important;
+}
+
+[data-theme="dark"] .cf2-dock-label:not(.dock-label-emergency).active svg circle[fill="currentColor"],
+[data-theme="dark"] .cf2-dock-label:not(.dock-label-emergency):has(.cf2-dock-radio:checked) svg circle[fill="currentColor"] {
+  fill: #2DD4BF !important;
+  stroke: none !important;
 }
 
 /* Auth / Login Screen in Dark Mode */
