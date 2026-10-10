@@ -4227,9 +4227,9 @@ html:not([data-theme="dark"]) .header-theme-toggle-btn:hover .theme-icon-moon {
    ========================================================================== */
 .mobile-bottom-bar {
   position: absolute;
-  bottom: 14px;
-  left: 14px;
-  right: 14px;
+  bottom: 12px;
+  left: 10px;
+  right: 10px;
   height: auto;
   background: transparent;
   border: none;
@@ -4259,7 +4259,7 @@ html:not([data-theme="dark"]) .header-theme-toggle-btn:hover .theme-icon-moon {
   display: flex;
   box-shadow: 0 12px 30px -4px rgba(17, 19, 24, 0.12), 0 4px 12px rgba(17, 19, 24, 0.05);
   transition: all 500ms ease-in-out;
-  padding: 4px;
+  padding: 3px;
   pointer-events: auto;
 }
 
@@ -4267,28 +4267,33 @@ html:not([data-theme="dark"]) .header-theme-toggle-btn:hover .theme-icon-moon {
   position: relative;
   width: 100%;
   height: 52px;
-  padding: 6px 4px 5px;
+  padding: 5px 2px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2px;
   color: #111318;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid transparent;
   cursor: pointer;
   user-select: none;
   transition: all 300ms ease-in-out;
   -webkit-tap-highlight-color: transparent;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .dock-tab-label {
-  font-size: 9.5px;
+  font-size: 8.5px;
   font-weight: 600;
   color: #64748B;
-  line-height: 1;
+  line-height: 1.1;
   transition: color 250ms ease;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .cf2-dock-label:hover {
@@ -4304,8 +4309,8 @@ html:not([data-theme="dark"]) .header-theme-toggle-btn:hover .theme-icon-moon {
 }
 
 .cf2-dock-icon {
-  width: 20px;
-  height: 20px;
+  width: 19px;
+  height: 19px;
   fill: #64748B;
   color: #64748B;
   stroke: #64748B;
